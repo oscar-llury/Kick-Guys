@@ -43,7 +43,7 @@ var levels = {
 			var level = levels.data[i];
 			html += '<input type="button" value="'+(i+1)+'">';
 		};
-		$('#levelselection').html(html);
+		$('#levelselectscreen').html(html);
 
 		//establece los controladores de eventos de clic de boton para cargar el nivel
 		$('#levelselectscreen input').click(function(){
@@ -102,7 +102,7 @@ var loader ={
 		if(loader.loadedCount === loader.totalCount){
 			//el loader ha cargado completamente
 			loader.loaded = true;
-			$('#loagingscreen').hide();
+			$('#loadingscreen').hide();
 			if(loader.onload){
 				loader.onload();
 				loader.onload = undefined;
