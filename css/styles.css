@@ -38,3 +38,17 @@
     height: 64px;
     border: 0;
 }
+
+/* Pantalla de carga */
+#loadingscreen {
+    background:rgb(100,100,100,0.3);
+}
+
+#loadingmessage {
+    margin-top:400px;
+    text-align:center;
+    height:48px;
+    color:white;
+    background:url(../assets/images/loader.gif) no-repeat center;
+    font:12px Arial;
+}
