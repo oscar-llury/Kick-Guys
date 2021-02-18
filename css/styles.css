@@ -64,9 +64,9 @@
 #scorescreen img{
     opacity: 0.6;
     top: 10px;
-    position:relative;
+    position: relative;
     padding-left: 10px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 #scorescreen #score {
@@ -75,6 +75,6 @@
     right: 20px;
 }
 
-endingscreen {
-    text-align:center;
+#endingscreen {
+    text-align: center;
 }

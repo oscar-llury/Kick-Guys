@@ -1,3 +1,29 @@
+//preparar requestAnimationFrame y cancelAnimationFrame para su uso
+(function() {
+	var lastTime = 0;
+	var vendors = ['ms', 'moz', 'webkit', 'o'];
+	for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+		window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+		window.cancelAnimationFrame = 
+		  window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+	}
+ 
+	if (!window.requestAnimationFrame)
+		window.requestAnimationFrame = function(callback, element) {
+			var currTime = new Date().getTime();
+			var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+			var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+			  timeToCall);
+			lastTime = currTime + timeToCall;
+			return id;
+		};
+ 
+	if (!window.cancelAnimationFrame)
+		window.cancelAnimationFrame = function(id) {
+			clearTimeout(id);
+		};
+}());
+
 $(window).load(function() {
 	game.init();
 });
@@ -17,6 +43,41 @@ var game = {
 	showLevelScreen:function(){
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
+	},
+	//modo Juego 
+	mode:"intro", 
+	//coordenadas X & Y del tirachinas
+	slingshotX:140,
+	slingshotY:280,
+	start:function(){
+		$('.gamelayer').hide();
+		//mostrar canvar y score
+		$('#gamecanvas').show();
+		$('#scorescreen').show();
+	
+		game.mode = "intro";	
+		game.offsetLeft = 0;
+		game.ended = false;
+		game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
+	},	
+	handlePanning:function(){
+		game.offsetLeft++;//marcador de posicion temporal, mantiene la panoramica a la derecha
+	},
+	animate:function(){
+		//animar el fondo
+		game.handlePanning();
+		//animar personajes
+
+		//dibujar el fondo con desplazamiento
+		game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft/4,0,640,480,0,0,640,480);
+		game.context.drawImage(game.currentLevel.foregroundImage,game.offsetLeft,0,640,480,0,0,640,480);
+		//dibujar el tirachinas
+		game.context.drawImage(game.slingshotImage,game.slingshotX-game.offsetLeft,game.slingshotY);
+		//dibujar el frente del tirachinas
+		game.context.drawImage(game.slingshotFrontImage,game.slingshotX-game.offsetLeft,game.slingshotY);
+		if (!game.ended){
+			game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
+		}	
 	},
 }
 
@@ -60,14 +121,14 @@ var levels = {
 		var level = levels.data[number];
 
 		//cargar el fondo, el primer plano y las imagenes de la honda
-		game.currentLevel.backgroundImage = loader.loadImage('../assets/images/background.png');
-		game.currentLevel.foregroundImage = loader.loadImage('../assets/images/background-suelo.png');
-		game.slingsotImage = loader.loadImage("../assets/images/tirachinas.png");
-		game.slingshotFrontImage = loader.loadImage("../assets/images/tirachinas-front.png");
+		game.currentLevel.backgroundImage = loader.loadImage('assets/images/background.png');
+		game.currentLevel.foregroundImage = loader.loadImage('assets/images/background-suelo.png');
+		game.slingsotImage = loader.loadImage("assets/images/tirachinas.png");
+		game.slingshotFrontImage = loader.loadImage("assets/images/tirachinas-front.png");
 
 		//llamar a game.start cuando lo assets se hayan cargado
 		if(loader.loaded){
-			game.start();
+			game.start()
 		}else{
 			loader.onload = game.start;
 		}
@@ -77,7 +138,7 @@ var loader ={
 	loaded:true,
 	loadedCount:0,//assets que han sido cargados antes
 	totalCount:0,//numero total de assets que es necesario cargar
-
+/*
 	init:function(){
 		//comprueba el soporte para sonido
 		var mp3Support,oggSupport;
@@ -93,7 +154,7 @@ var loader ={
 		}
 		//comprueba para ogg, mp3 y finalmente fija soundFileExtn como undefined
 		loader.soundFileExtn = oggSupport?".ogg":mp3Support?".mp3":undefined;
-	},
+	},*/
 	loadImage:function(url){
 		this.totalCount++;
 		this.loaded = false;
