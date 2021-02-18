@@ -11,10 +11,11 @@ var game = {
 		$('#gamestartscreen').show();	
 
 		//Obtener el controlador para el lienzo de juego y el contexto
-		game.canvas = $('#gamecanvas')[0];
+		game.canvas = document.getElementById('gamecanvas');
 		game.context = game.canvas.getContext('2d');
 	},
 	showLevelScreen:function(){
+		console.log("holaa");
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
 	},
