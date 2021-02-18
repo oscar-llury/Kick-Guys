@@ -15,7 +15,6 @@ var game = {
 		game.context = game.canvas.getContext('2d');
 	},
 	showLevelScreen:function(){
-		console.log("holaa");
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
 	},
@@ -54,7 +53,24 @@ var levels = {
 	},
 	//carga todos los datos e imagenes para un nivel
 	load:function(number){
+		//declarar un nuevo objeto de nivel actual
+		game.currentLevel = {number:number,hero:[]};
+		game.score = 0;
+		$('#score').html('Score: '+game.score);
+		var level = levels.data[number];
 
+		//cargar el fondo, el primer plano y las imagenes de la honda
+		game.currentLevel.backgroundImage = loader.loadImage('../assets/images/splashscreen.png');
+		game.currentLevel.foregroundImage = loader.loadImage('../assets/images/splashscreen.png');
+		game.slingsotImage = loader.loadImage("../assets/images/splashscreen.png");
+		game.slingshotFrontImage = loader.loadImage("../assets/images/splashscreen.png");
+
+		//llamar a game.start cuando lo assets se hayan cargado
+		if(loader.loaded){
+			game.start();
+		}else{
+			loader.onload = game.start;
+		}
 	}
 }
 var loader ={
