@@ -60,10 +60,10 @@ var levels = {
 		var level = levels.data[number];
 
 		//cargar el fondo, el primer plano y las imagenes de la honda
-		game.currentLevel.backgroundImage = loader.loadImage('../assets/images/splashscreen.png');
-		game.currentLevel.foregroundImage = loader.loadImage('../assets/images/splashscreen.png');
-		game.slingsotImage = loader.loadImage("../assets/images/splashscreen.png");
-		game.slingshotFrontImage = loader.loadImage("../assets/images/splashscreen.png");
+		game.currentLevel.backgroundImage = loader.loadImage('../assets/images/background.png');
+		game.currentLevel.foregroundImage = loader.loadImage('../assets/images/background-suelo.png');
+		game.slingsotImage = loader.loadImage("../assets/images/tirachinas.png");
+		game.slingshotFrontImage = loader.loadImage("../assets/images/tirachinas-front.png");
 
 		//llamar a game.start cuando lo assets se hayan cargado
 		if(loader.loaded){
