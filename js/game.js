@@ -89,6 +89,32 @@ var game = {
 	},
 	handlePanning:function(){
 		game.offsetLeft++;//marcador de posicion temporal, mantiene la panoramica a la derecha
+		if(game.mode=="intro"){		
+			if(game.panTo(700)){
+				game.mode = "load-next-hero";
+			}			 
+		}
+		if (game.mode=="wait-for-firing"){  
+			if (mouse.dragging){
+				game.panTo(mouse.x + game.offsetLeft)
+			} else {
+				game.panTo(game.slingshotX);
+			}
+		}
+		if (game.mode == "load-next-hero"){
+			//TODO
+			//comprobar si algún villano esta vivo, sino, terminar el nivel (éxito)
+			//comprobar si quedan más heroes para cargar, sino terminar el nivel (fallo)
+			//cargar el heroe y fijar a modo de espera para disparar
+			game.mode = "wait-for-firing";
+		}
+		if (game.mode == "firing"){
+			game.panTo(game.slingshotX);
+		}
+		if (game.mode == "fired"){
+			//TODO
+			//hacer una panoramica donde quiero que el heroe se encuentre actualmente
+		}
 	},
 	animate:function(){
 		//animar el fondo
