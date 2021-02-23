@@ -65,7 +65,7 @@ var game = {
 	},
 	
 	// Desplazamiento de panorámica actual
-	offsetLeft:0,
+	offsetLeft:0;
 	//minimo y maximo desplazamiento panoramico
 	minOffset=0;
 	maxOffset=300;
