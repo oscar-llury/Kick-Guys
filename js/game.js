@@ -49,6 +49,8 @@ var game = {
 	//coordenadas X & Y del tirachinas
 	slingshotX:140,
 	slingshotY:280,
+	// Desplazamiento de panorámica actual
+	offsetLeft:0,
 	start:function(){
 		$('.gamelayer').hide();
 		//mostrar canvar y score
@@ -66,7 +68,7 @@ var game = {
 	animate:function(){
 		//animar el fondo
 		game.handlePanning();
-		//animar personajes
+
 
 		//dibujar el fondo con desplazamiento
 		game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft/4,0,640,480,0,0,640,480);
@@ -86,14 +88,14 @@ var levels = {
 	data:[
 		{
 			//primer nivel
-			foreground:'desert-foreground',
-			background:'clouds-background',
+			foreground:'background-suelo',
+			background:'background',
 			entities:[]
 		},
 		{
 			//segundo nivel
-			foreground:'desert-foreground',
-			background:'clouds-background',
+			foreground:'background-suelo',
+			background:'background',
 			entities:[]
 		}
 	],
@@ -121,9 +123,9 @@ var levels = {
 		var level = levels.data[number];
 
 		//cargar el fondo, el primer plano y las imagenes de la honda
-		game.currentLevel.backgroundImage = loader.loadImage('assets/images/background.png');
-		game.currentLevel.foregroundImage = loader.loadImage('assets/images/background-suelo.png');
-		game.slingsotImage = loader.loadImage("assets/images/tirachinas.png");
+		game.currentLevel.backgroundImage = loader.loadImage("assets/images/"+level.background+".png");
+		game.currentLevel.foregroundImage = loader.loadImage("assets/images/"+level.foreground+".png");
+		game.slingshotImage = loader.loadImage("assets/images/tirachinas.png");
 		game.slingshotFrontImage = loader.loadImage("assets/images/tirachinas-front.png");
 
 		//llamar a game.start cuando lo assets se hayan cargado
@@ -138,11 +140,12 @@ var loader ={
 	loaded:true,
 	loadedCount:0,//assets que han sido cargados antes
 	totalCount:0,//numero total de assets que es necesario cargar
-/*
+
 	init:function(){
 		//comprueba el soporte para sonido
 		var mp3Support,oggSupport;
 		var audio = document.createElement('audio');
+		/*
 		if(audio.canPlayType){
 			//actualmente canPlayType devuelve: "","mayby" o "probably"
 			mp3Support = "" != audio.canPlayType('audio/mpeg');
@@ -151,10 +154,10 @@ var loader ={
 			//la etiqueta de audio no es soportada
 			mp3Support = false;
 			oggSupport = false;
-		}
+		}*/
 		//comprueba para ogg, mp3 y finalmente fija soundFileExtn como undefined
-		loader.soundFileExtn = oggSupport?".ogg":mp3Support?".mp3":undefined;
-	},*/
+		//loader.soundFileExtn = oggSupport?".ogg":mp3Support?".mp3":undefined;
+	},
 	loadImage:function(url){
 		this.totalCount++;
 		this.loaded = false;
