@@ -64,6 +64,29 @@ var game = {
 		game.ended = false;
 		game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
 	},	
+	//Despliegue la pantalla para centrarse en newCenter
+	panTo:function(newCenter){
+		if (Math.abs(newCenter-game.offsetLeft-game.canvas.width/4)>0 
+			&& game.offsetLeft <= game.maxOffset && game.offsetLeft >= game.minOffset){
+		
+			var deltaX = Math.round((newCenter-game.offsetLeft-game.canvas.width/4)/2);
+			if (deltaX && Math.abs(deltaX)>game.maxSpeed){
+				deltaX = game.maxSpeed*Math.abs(deltaX)/(deltaX);
+			}
+			game.offsetLeft += deltaX; 
+		} else {
+			
+			return true;
+		}
+		if (game.offsetLeft <game.minOffset){
+			game.offsetLeft = game.minOffset;
+			return true;
+		} else if (game.offsetLeft > game.maxOffset){
+			game.offsetLeft = game.maxOffset;
+			return true;
+		}		
+		return false;
+	},
 	handlePanning:function(){
 		game.offsetLeft++;//marcador de posicion temporal, mantiene la panoramica a la derecha
 	},
