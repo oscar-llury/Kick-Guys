@@ -51,8 +51,7 @@ var game = {
 	//coordenadas X & Y del tirachinas
 	slingshotX:140,
 	slingshotY:280,
-	// Desplazamiento de panorámica actual
-	offsetLeft:0,
+
 	start:function(){
 		$('.gamelayer').hide();
 		//mostrar canvar y score
@@ -63,7 +62,16 @@ var game = {
 		game.offsetLeft = 0;
 		game.ended = false;
 		game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
-	},	
+	},
+	
+	// Desplazamiento de panorámica actual
+	offsetLeft:0,
+	//minimo y maximo desplazamiento panoramico
+	minOffset=0;
+	maxOffset=300;
+	//la puntuacion del juego
+	scrore=0;
+	
 	//Despliegue la pantalla para centrarse en newCenter
 	panTo:function(newCenter){
 		if (Math.abs(newCenter-game.offsetLeft-game.canvas.width/4)>0 
@@ -88,7 +96,7 @@ var game = {
 		return false;
 	},
 	handlePanning:function(){
-		game.offsetLeft++;//marcador de posicion temporal, mantiene la panoramica a la derecha
+		//game.offsetLeft++;//marcador de posicion temporal, mantiene la panoramica a la derecha
 		if(game.mode=="intro"){		
 			if(game.panTo(700)){
 				game.mode = "load-next-hero";
@@ -119,7 +127,7 @@ var game = {
 	animate:function(){
 		//animar el fondo
 		game.handlePanning();
-
+		//animar los personajes
 
 		//dibujar el fondo con desplazamiento
 		game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft/4,0,640,480,0,0,640,480);
@@ -171,6 +179,7 @@ var levels = {
 		game.currentLevel = {number:number,hero:[]};
 		game.score = 0;
 		$('#score').html('Score: '+game.score);
+		game.currentHero=undefined;
 		var level = levels.data[number];
 
 		//cargar el fondo, el primer plano y las imagenes de la honda
