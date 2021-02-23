@@ -32,6 +32,8 @@ var game = {
 	init: function(){
 		//inicializar objetos
 		levels.init();
+		loader.init();
+		mouse.init();
 		// Ocultar todas las capas del juego y mostrar la pantalla de inicio
 		$('.gamelayer').hide();
 		$('#gamestartscreen').show();	
