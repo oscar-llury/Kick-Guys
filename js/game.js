@@ -65,12 +65,12 @@ var game = {
 	},
 	
 	// Desplazamiento de panorámica actual
-	offsetLeft:0;
+	offsetLeft:0,
 	//minimo y maximo desplazamiento panoramico
-	minOffset=0;
-	maxOffset=300;
+	minOffset:0,
+	maxOffset:300,
 	//la puntuacion del juego
-	scrore=0;
+	scrore:0,
 	
 	//Despliegue la pantalla para centrarse en newCenter
 	panTo:function(newCenter){
