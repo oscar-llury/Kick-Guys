@@ -131,7 +131,7 @@ var game = {
 		//animar los personajes
 
 		//dibujar el fondo con desplazamiento
-		game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft/4,0,640,480,0,0,640,480);
+		game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft,0,640,480,0,0,640,480);// /4
 		game.context.drawImage(game.currentLevel.foregroundImage,game.offsetLeft,0,640,480,0,0,640,480);
 		//dibujar el tirachinas
 		game.context.drawImage(game.slingshotImage,game.slingshotX-game.offsetLeft,game.slingshotY);
@@ -148,14 +148,14 @@ var levels = {
 	data:[
 		{
 			//primer nivel
-			foreground:'background-suelo',
-			background:'background',
+			foreground:'N1-foreground',
+			background:'N1-background',
 			entities:[]
 		},
 		{
 			//segundo nivel
-			foreground:'background-suelo',
-			background:'background',
+			foreground:'N2-foreground',
+			background:'N2-background',
 			entities:[]
 		}
 	],
