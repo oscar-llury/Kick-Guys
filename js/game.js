@@ -39,7 +39,7 @@ var game = {
 		$('#gamestartscreen').show();	
 
 		//Obtener el controlador para el lienzo de juego y el contexto
-		game.canvas = document.getElementById('gamecanvas');
+		game.canvas = $('#gamecanvas')[0];
 		game.context = game.canvas.getContext('2d');
 	},
 	showLevelScreen:function(){
@@ -63,7 +63,8 @@ var game = {
 		game.ended = false;
 		game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
 	},
-	
+	// Velocidad máxima de panoramización por fotograma en píxeles
+	maxSpeed:3,
 	// Desplazamiento de panorámica actual
 	offsetLeft:0,
 	//minimo y maximo desplazamiento panoramico
@@ -104,7 +105,7 @@ var game = {
 		}
 		if (game.mode=="wait-for-firing"){  
 			if (mouse.dragging){
-				game.panTo(mouse.x + game.offsetLeft)
+				game.panTo(mouse.x + game.offsetLeft)//;
 			} else {
 				game.panTo(game.slingshotX);
 			}
@@ -190,7 +191,7 @@ var levels = {
 
 		//llamar a game.start cuando lo assets se hayan cargado
 		if(loader.loaded){
-			game.start()
+			game.start();
 		}else{
 			loader.onload = game.start;
 		}
