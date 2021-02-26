@@ -31,7 +31,9 @@
 #levelselectscreen input{
     margin: 20px;
     cursor: pointer;
-    background: url(../assets/images/level.png) no-repeat;
+    /*background: url(../assets/images/level.png) no-repeat;
+	background-size: contain;*/
+	border-radius: 10px;
     color: yellow;
     font-size: 20px;
     width: 64px;

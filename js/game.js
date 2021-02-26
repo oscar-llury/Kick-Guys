@@ -131,7 +131,7 @@ var game = {
 		//animar los personajes
 
 		//dibujar el fondo con desplazamiento
-		game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft,0,640,480,0,0,640,480);// /4
+		game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft/2,0,640,480,0,0,640,480);// /4
 		game.context.drawImage(game.currentLevel.foregroundImage,game.offsetLeft,0,640,480,0,0,640,480);
 		//dibujar el tirachinas
 		game.context.drawImage(game.slingshotImage,game.slingshotX-game.offsetLeft,game.slingshotY);
@@ -153,18 +153,46 @@ var levels = {
 			entities:[]
 		},
 		{
-			//segundo nivel
+			//primer nivel
 			foreground:'N2-foreground',
 			background:'N2-background',
+			entities:[]
+		},
+		{
+			//primer nivel
+			foreground:'N3-foreground',
+			background:'N3-background',
+			entities:[]
+		},
+		{
+			//primer nivel
+			foreground:'N4-foreground',
+			background:'N4-background',
+			entities:[]
+		},
+		{
+			//segundo nivel
+			foreground:'N5-foreground',
+			background:'N5-background',
 			entities:[]
 		}
 	],
 	//inicializa la pantalla de seleccion de nivel
 	init:function(){
 		var html="";
-		for(var i=0;i<levels.data.length;i++){
-			var level = levels.data[i];
-			html += '<input type="button" value="'+(i+1)+'">';
+		var maxLine = Math.round(levels.data.length/2);
+		var cont=0;
+		var i=0;
+		while(i<levels.data.length){
+			html += '<div>';
+			while((cont<maxLine)&&(i<levels.data.length)){
+				var level = levels.data[i];
+				html += '<input type="button" value="'+(i+1)+'" style="background:url(assets/levels/N'+(i+1)+'-icon.png)no-repeat;background-size: contain;">';
+				cont++;
+				i++;
+			}
+			html += '</div>';
+			cont=0;
 		};
 		$('#levelselectscreen').html(html);
 
@@ -184,8 +212,8 @@ var levels = {
 		var level = levels.data[number];
 
 		//cargar el fondo, el primer plano y las imagenes de la honda
-		game.currentLevel.backgroundImage = loader.loadImage("assets/images/"+level.background+".png");
-		game.currentLevel.foregroundImage = loader.loadImage("assets/images/"+level.foreground+".png");
+		game.currentLevel.backgroundImage = loader.loadImage("assets/levels/"+level.background+".png");
+		game.currentLevel.foregroundImage = loader.loadImage("assets/levels/"+level.foreground+".png");
 		game.slingshotImage = loader.loadImage("assets/images/tirachinas.png");
 		game.slingshotFrontImage = loader.loadImage("assets/images/tirachinas-front.png");
 
