@@ -12,6 +12,10 @@
     display: none;
 }
 
+#debugcanvas {
+    margin-top: 50px;
+}
+
 /*Pantalla de inicio del juego*/
 #gamestartscreen {
     padding-top: 250px;
