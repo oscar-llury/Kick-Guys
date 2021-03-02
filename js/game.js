@@ -40,6 +40,22 @@ $(window).load(function() {
 });
 var game = {
 	// Inicialización de objetos, precarga de elementos y pantalla de inicio
+	//modo Juego 
+	mode:"intro", 
+	//coordenadas X & Y del tirachinas
+	slingshotX:140,
+	slingshotY:280,
+	// Velocidad máxima de panoramización por fotograma en píxeles
+	maxSpeed:3,
+	// Desplazamiento de panorámica actual
+	offsetLeft:0,
+	//minimo y maximo desplazamiento panoramico
+	minOffset:0,
+	maxOffset:300,
+	//la puntuacion del juego
+	scrore:0,
+	decelerating:0,
+	
 	init: function(){
 		//inicializar objetos
 		levels.init();
@@ -57,12 +73,7 @@ var game = {
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
 	},
-	//modo Juego 
-	mode:"intro", 
-	//coordenadas X & Y del tirachinas
-	slingshotX:140,
-	slingshotY:280,
-
+	
 	start:function(){
 		$('.gamelayer').hide();
 		//mostrar canvar y score
@@ -74,16 +85,7 @@ var game = {
 		game.ended = false;
 		game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
 	},
-	// Velocidad máxima de panoramización por fotograma en píxeles
-	maxSpeed:3,
-	// Desplazamiento de panorámica actual
-	offsetLeft:0,
-	//minimo y maximo desplazamiento panoramico
-	minOffset:0,
-	maxOffset:300,
-	//la puntuacion del juego
-	scrore:0,
-	
+
 	//Despliegue la pantalla para centrarse en newCenter
 	panTo:function(newCenter){
 		if (Math.abs(newCenter-game.offsetLeft-game.canvas.width/4)>0 
@@ -171,17 +173,25 @@ var game = {
 			//Vista panorÃ¡mica donde el hÃ©roe se encuentra actualmente...
 			var heroX = game.currentHero.GetPosition().x*box2d.scale;
 			game.panTo(heroX);
-
-			//Y esperar hasta que deja de moverse o estÃ¡ fuera de los lÃ­mites
-			if(!game.currentHero.IsAwake() || heroX<0 || heroX >game.currentLevel.foregroundImage.width ){
-				// Luego borra el viejo hÃ©roe
+			//Y esperar hasta que deja de moverse, está fuera de los límites o se mueve lentamente durante demasiado tiempo
+			if(game.currentHero.m_linearVelocity.x<2 && game.currentHero.m_xf.position.y>13) {
+				game.decelerating++;
+			} else {
+				game.decelerating = 0;
+			}
+			//var position = game.currentHero.GetPosition();
+			
+			//Y esperar hasta que deja de moverse o esta fuera de los limites
+			if(!game.currentHero.IsAwake() || heroX<0 || heroX >game.currentLevel.foregroundImage.width || game.decelerating>350 ){
+				// Luego borra el viejo heroe
 				box2d.world.DestroyBody(game.currentHero);
 				game.currentHero = undefined;
-				// y carga el siguiente hÃ©roe
-				game.mode = "load-next-hero";
+				// Resetea el numero de veces que se desplaza lentamente
+                game.decelerating = 0;
+                // y carga el siguiente heroe
+                game.mode = "load-next-hero"
 			}
 		}
-		
 
 		if (game.mode == "load-next-hero"){
 			game.countHeroesAndVillains();
@@ -212,34 +222,32 @@ var game = {
 					game.mode = "wait-for-firing";
 				}
 			}
-		   }	
-   
-			if(game.mode=="level-success" || game.mode=="level-failure"){		
-				if(game.panTo(0)){
-					game.ended = true;					
-					game.showEndingScreen();
-				}			 
-			}
-			
-
-	  	},
-		showEndingScreen:function(){
-			game.stopBackgroundMusic();				
-			if (game.mode=="level-success"){			
-				if(game.currentLevel.number<levels.data.length-1){
-					$('#endingmessage').html('Level Complete. Well Done!!!');
-					$("#playnextlevel").show();
-				} else {
-					$('#endingmessage').html('All Levels Complete. Well Done!!!');
-					$("#playnextlevel").hide();
-				}
-			} else if (game.mode=="level-failure"){			
-				$('#endingmessage').html('Failed. Play Again?');
-				$("#playnextlevel").hide();
-			}		
+	    }	
+		if(game.mode=="level-success" || game.mode=="level-failure"){		
+			if(game.panTo(0)){
+				game.ended = true;					
+				game.showEndingScreen();
+			}			 
+		}
+	},
 	
-			$('#endingscreen').show();
-		},
+	showEndingScreen:function(){
+		game.stopBackgroundMusic();				
+		if (game.mode=="level-success"){			
+			if(game.currentLevel.number<levels.data.length-1){
+				$('#endingmessage').html('Level Complete. Well Done!!!');
+				$("#playnextlevel").show();
+			} else {
+				$('#endingmessage').html('All Levels Complete. Well Done!!!');
+				$("#playnextlevel").hide();
+			}
+		} else if (game.mode=="level-failure"){			
+			$('#endingmessage').html('Failed. Play Again?');
+			$("#playnextlevel").hide();
+		}		
+
+		$('#endingscreen').show();
+	},
 	animate:function(){
 		//animar el fondo
 		game.handlePanning();
@@ -270,8 +278,8 @@ var game = {
 		if (!game.ended){
 			game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
 		}	
-},
-drawAllBodies:function(){  
+	},
+	drawAllBodies:function(){  
 		box2d.world.DrawDebugData();	
 
 		// Iterar a travÃ©s de todos los cuerpos y dibujarlos en el lienzo del juego		  
@@ -334,66 +342,84 @@ drawAllBodies:function(){
 var levels = {
 	// Datos de nivel
 	data:[
-	 {   // Primer nivel 
-		foreground:'N1-foreground',
-		background:'N1-background',
-		entities:[
-			{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
-			{type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
+		{// Primer nivel 
+			foreground:'N1-foreground',
+			background:'N1-background',
+			icon:'N1-icon',
+			entities:[
+				{type:"ground", name:"suelo", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+				
+				{type:"block", name:"espiral", x:520,y:380,angle:90,width:100,height:25},	
+				{type:"block", name:"espiral", x:620,y:280,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:520,y:280,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"pelota", x:480,y:410,angle:90,width:50,height:50},
+				
+				{type:"villain", name:"villano",x:520,y:205,calories:590},
+				{type:"villain", name:"villano", x:620,y:205,calories:420},
 
-			{type:"block", name:"wood", x:520,y:380,angle:90,width:100,height:25},
-			{type:"block", name:"glass", x:520,y:280,angle:90,width:100,height:25},								
-			{type:"villain", name:"burger",x:520,y:205,calories:590},
-
-			{type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
-			{type:"block", name:"glass", x:620,y:280,angle:90,width:100,height:25},								
-			{type:"villain", name:"fries", x:620,y:205,calories:420},				
-
-			{type:"hero", name:"orange",x:80,y:405},
-			{type:"hero", name:"apple",x:140,y:405},
-		]
-	 },
-		{   // Segundo nivel
+				{type:"hero", name:"melocoton",x:80,y:405},
+				{type:"hero", name:"manzana",x:140,y:405},
+			]
+		},
+		{// Segundo nivel
 			foreground:'N2-foreground',
 			background:'N2-background',
+			icon:'N2-icon',
 			entities:[
-				{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
-				{type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground", name:"suelo", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 	
-				{type:"block", name:"wood", x:820,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"wood", x:720,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"glass", x:670,y:317.5,width:100,height:25},
-				{type:"block", name:"glass", x:770,y:317.5,width:100,height:25},				
+				{type:"block", name:"bloque", x:820,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:720,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"espiral", x:670,y:317.5,width:100,height:25},
+				{type:"block", name:"espiral", x:770,y:317.5,width:100,height:25},				
 
-				{type:"block", name:"glass", x:670,y:255,angle:90,width:100,height:25},
-				{type:"block", name:"glass", x:770,y:255,angle:90,width:100,height:25},
-				{type:"block", name:"wood", x:720,y:192.5,width:100,height:25},	
+				{type:"block", name:"espiral", x:670,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"espiral", x:770,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:720,y:192.5,width:100,height:25},	
 
-				{type:"villain", name:"burger",x:715,y:155,calories:590},
-				{type:"villain", name:"fries",x:670,y:405,calories:420},
-				{type:"villain", name:"sodacan",x:765,y:400,calories:150},
+				{type:"villain", name:"villano",x:715,y:155,calories:590},
+				{type:"villain", name:"villano",x:670,y:405,calories:420},
+				{type:"villain", name:"villano",x:765,y:400,calories:150},
 
-				{type:"hero", name:"strawberry",x:30,y:415},
-				{type:"hero", name:"orange",x:80,y:405},
-				{type:"hero", name:"apple",x:140,y:405},
+				{type:"hero", name:"ciruela",x:30,y:415},
+				{type:"hero", name:"melocoton",x:80,y:405},
+				{type:"hero", name:"manzana",x:140,y:405},
 			]
 		},
 		{//Tercer nivel 
 			foreground:'N3-foreground',
 			background:'N3-background',
+			icon:'N3-icon',
 			entities:[],
 		},
 		{//Cuarto nivel 
 			foreground:'N4-foreground',
 			background:'N4-background',
+			icon:'N4-icon',
 			entities:[],
 		},
 		{//Quinto nivel 
 			foreground:'N5-foreground',
 			background:'N5-background',
+			icon:'N5-icon',
 			entities:[],
 		},
+		{//Sexto nivel 
+			foreground:'N6-foreground',
+			background:'N6-background',
+			icon:'N6-icon',
+			entities:[],
+		},
+		{//Septimo nivel 
+			foreground:'N7-foreground',
+			background:'N7-background',
+			icon:'N7-icon',
+			entities:[],
+		}
 	],
 	//inicializa la pantalla de seleccion de nivel
 	init:function(){
@@ -405,7 +431,7 @@ var levels = {
 			html += '<div>';
 			while((cont<maxLine)&&(i<levels.data.length)){
 				var level = levels.data[i];
-				html += '<input type="button" value="'+(i+1)+'" style="background:url(assets/levels/N'+(i+1)+'-icon.png)no-repeat;background-size: contain;">';
+				html += '<input type="button" value="'+(i+1)+'" style="background:url(assets/levels/'+level.icon+'.png)no-repeat;background-size: contain;">';
 				cont++;
 				i++;
 			}
@@ -456,22 +482,32 @@ var levels = {
 
 var entities = {
 	definitions:{
-		"glass":{
+		"suelo":{
+			density:3.0,
+			friction:1.5,
+			restitution:0.2,	
+		},
+		"espiral":{
+			shape:"rectangle",
 			fullHealth:100,
 			density:2.4,
 			friction:0.4,
 			restitution:0.15,
 		},
-		"wood":{
+		"bloque":{
+			shape:"rectangle",
 			fullHealth:500,
 			density:0.7,
 			friction:0.4,
 			restitution:0.4,
 		},
-		"dirt":{
-			density:3.0,
-			friction:1.5,
-			restitution:0.2,	
+		"pelota":{
+			shape:"circle",
+			radius:25,
+			fullHealth:10000000,
+			density:0.1,
+			friction:0.1,
+			restitution:0.1,
 		},
 		"burger":{
 			shape:"circle",
@@ -490,7 +526,7 @@ var entities = {
 			friction:0.5,
 			restitution:0.7,	
 		},
-		"fries":{
+		"villano":{
 			shape:"rectangle",
 			fullHealth:50,
 			width:40,
@@ -499,21 +535,21 @@ var entities = {
 			friction:0.5,
 			restitution:0.6,	
 		},
-		"apple":{
+		"manzana":{ //hero
 			shape:"circle",
 			radius:25,
 			density:1.5,
 			friction:0.5,
 			restitution:0.4,	
 		},
-		"orange":{
+		"melocoton":{ //hero
 			shape:"circle",
 			radius:25,
 			density:1.5,
 			friction:0.5,
 			restitution:0.4,	
 		},
-		"strawberry":{
+		"ciruela":{ //hero
 			shape:"circle",
 			radius:15,
 			density:2.0,
@@ -525,36 +561,51 @@ var entities = {
 	create:function(entity){
 		var definition = entities.definitions[entity.name];	
 		if(!definition){
-			console.log ("Undefined entity name",entity.name);
+			console.log("Undefined entity name",entity.name);
 			return;
 		}	
 		switch(entity.type){
 			case "block": // Rectángulos simples
 				entity.health = definition.fullHealth;
 				entity.fullHealth = definition.fullHealth;
-				entity.shape = "rectangle";	
-				//entity.sprite = loader.loadImage("assets/images/entities/"+entity.name+".png");	
-				  entity.sprite = loader.loadImage("assets/levels/level.png");
-				//entity.breakSound = game.breakSound[entity.name];
-				box2d.createRectangle(entity,definition);				
+				entity.sprite = loader.loadImage("assets/estructuras/"+entity.name+"-"+Math.round(Math.random()*(4 - 1) + 1)+".png");
+				entity.shape = definition.shape;
+				if(definition.shape == "circle"){
+					entity.radius = definition.radius;
+					box2d.createCircle(entity,definition);
+				} else if(definition.shape == "rectangle"){
+					box2d.createRectangle(entity,definition);					
+				}
+				//entity.breakSound = game.breakSound[entity.name];				
 				break;
 			case "ground": // Rectángulos simples
 				// No hay necesidad de salud. Estos son indestructibles
-				entity.shape = "rectangle";  
+				entity.shape = "rectangle";
 				// No hay necesidad de sprites. Éstos no serán dibujados en absoluto 
-				box2d.createRectangle(entity,definition);			   
+				box2d.createRectangle(entity,definition);		   
 				break;	
-			case "hero":	// Círculos simples
-			case "villain": // Pueden ser círculos o rectángulos
-				entity.health = definition.fullHealth;
-				entity.fullHealth = definition.fullHealth;
-				//entity.sprite = loader.loadImage("assets/images/entities/"+entity.name+".png");
-				entity.sprite = loader.loadImage("assets/levels/level.png");
+			case "hero": // Círculos simples
+				var name = entity.name;
+				if(entity.name == "ciruela"){
+					name = entity.name+"-"+Math.round(Math.random()*(2 - 1) + 1);
+				}
+				entity.sprite = loader.loadImage("assets/entities/"+name+".png");
 				entity.shape = definition.shape;  
 				entity.bounceSound = game.bounceSound;
 				if(definition.shape == "circle"){
 					entity.radius = definition.radius;
-					box2d.createCircle(entity,definition);					
+					box2d.createCircle(entity,definition);
+				}											 
+				break;
+			case "villain": // Pueden ser círculos o rectángulos
+				entity.health = definition.fullHealth;
+				entity.fullHealth = definition.fullHealth;
+				entity.sprite = loader.loadImage("assets/entities/"+entity.name+"-"+Math.round(Math.random()*(15 - 1) + 1)+".png");
+				entity.shape = definition.shape;  
+				entity.bounceSound = game.bounceSound;
+				if(definition.shape == "circle"){
+					entity.radius = definition.radius;
+					box2d.createCircle(entity,definition);
 				} else if(definition.shape == "rectangle"){
 					entity.width = definition.width;
 					entity.height = definition.height;
@@ -566,7 +617,7 @@ var entities = {
 				break;
 		}		
 	},
-// Tomar la entidad, su posiciÃ³n y Ã¡ngulo y dibujar en el lienzo de juego
+// Tomar la entidad, su posicion y angulo y dibujar en el lienzo de juego
 	draw:function(entity,position,angle){
 		game.context.translate(position.x*box2d.scale-game.offsetLeft,position.y*box2d.scale);
 		game.context.rotate(angle);
@@ -598,7 +649,7 @@ var entities = {
 var box2d = {
 	scale:30,
 	init:function(){
-		// Configurar el mundo de box2d que harÃ¡ la mayorÃ­a de los cÃ¡lculos de la fÃ­sica
+		// Configurar el mundo de box2d que hara la mayoria de los circulos de la fÃ­sica
 		var gravity = new b2Vec2(0,9.8); //Declara la gravedad como 9,8 m / s ^ 2 hacia abajo
 		var allowSleep = true; //Permita que los objetos que estÃ¡n en reposo se queden dormidos y se excluyan de los cÃ¡lculos
 		box2d.world = new b2World(gravity,allowSleep);
