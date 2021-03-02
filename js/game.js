@@ -354,7 +354,7 @@ var levels = {
 				{type:"block", name:"espiral", x:620,y:280,angle:90,width:100,height:25},
 				{type:"block", name:"bloque", x:520,y:280,angle:90,width:100,height:25},
 				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"pelota", x:480,y:410,angle:90,width:50,height:50},
+				{type:"block", name:"pelota", x:400,y:410,angle:90,width:50,height:50},
 				
 				{type:"villain", name:"villano",x:520,y:205,calories:590},
 				{type:"villain", name:"villano", x:620,y:205,calories:420},
@@ -505,10 +505,11 @@ var entities = {
 			shape:"circle",
 			radius:25,
 			fullHealth:10000000,
-			density:0.1,
-			friction:0.1,
-			restitution:0.1,
+			density:0.1,//peso
+			friction:0.5,//asegurar escurre realista
+			restitution:1,//rebota mucho
 		},
+		/*
 		"burger":{
 			shape:"circle",
 			fullHealth:40,
@@ -525,7 +526,7 @@ var entities = {
 			density:1,
 			friction:0.5,
 			restitution:0.7,	
-		},
+		},*/
 		"villano":{
 			shape:"rectangle",
 			fullHealth:50,
