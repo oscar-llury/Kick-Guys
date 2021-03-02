@@ -73,7 +73,11 @@ var game = {
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
 	},
-	
+	restartLevel:function(){
+		window.cancelAnimationFrame(game.animationFrame);		
+		game.lastUpdateTime = undefined;
+		levels.load(game.currentLevel.number);
+	},
 	start:function(){
 		$('.gamelayer').hide();
 		//mostrar canvar y score
@@ -246,7 +250,7 @@ var game = {
 			$('#endingmessage').html('Failed. Play Again?');
 			$("#playnextlevel").hide();
 		}
-		$('#playcurrentlevel').html('<td><img src="assets/images/prev.png"></td><td>Replay Current Level</td>');
+		$('#playcurrentlevel').html('<td><img src="assets/images/prev.png"onclick="game.restartLevel();></td><td>Replay Current Level</td>');
 		$('#returntolevelscreen').html('<td><img src="assets/images/prev.png"></td><td>Return to Level Screen</td>');		
 		$('#endingscreen').show();
 	},
