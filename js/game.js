@@ -230,22 +230,24 @@ var game = {
 			}			 
 		}
 	},
-	
 	showEndingScreen:function(){
-		game.stopBackgroundMusic();				
-		if (game.mode=="level-success"){			
+		//game.stopBackgroundMusic();				
+		if (game.mode=="level-success"){
 			if(game.currentLevel.number<levels.data.length-1){
 				$('#endingmessage').html('Level Complete. Well Done!!!');
+				$('#playnextlevel').html('<td><img src="assets/images/prev.png"></td><td>Play Next Level</td>');
 				$("#playnextlevel").show();
 			} else {
 				$('#endingmessage').html('All Levels Complete. Well Done!!!');
 				$("#playnextlevel").hide();
 			}
+			
 		} else if (game.mode=="level-failure"){			
 			$('#endingmessage').html('Failed. Play Again?');
 			$("#playnextlevel").hide();
-		}		
-
+		}
+		$('#playcurrentlevel').html('<td><img src="assets/images/prev.png"></td><td>Replay Current Level</td>');
+		$('#returntolevelscreen').html('<td><img src="assets/images/prev.png"></td><td>Return to Level Screen</td>');		
 		$('#endingscreen').show();
 	},
 	animate:function(){

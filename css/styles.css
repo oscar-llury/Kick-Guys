@@ -80,7 +80,22 @@
     top: 5px;
     right: 20px;
 }
-
+/* Pantalla de fin de nivel */
 #endingscreen {
     text-align: center;
+}
+#endingscreen div{
+    padding-top: 100px;
+}
+#endingInfo{
+	margin:auto;
+	background-color: red;
+    border: 5px solid blue;
+    padding: 50px;
+}
+#endingmessage{
+	font-size: 25px;
+}
+#endingInfo img{
+	margin:5px;
 }
