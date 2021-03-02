@@ -78,6 +78,11 @@ var game = {
 		game.lastUpdateTime = undefined;
 		levels.load(game.currentLevel.number);
 	},
+	nextLevel:function(){
+		window.cancelAnimationFrame(game.animationFrame);		
+		game.lastUpdateTime = undefined;
+		levels.load(game.currentLevel.number+1);
+	},
 	start:function(){
 		$('.gamelayer').hide();
 		//mostrar canvar y score
