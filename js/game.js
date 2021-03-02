@@ -69,9 +69,17 @@ var game = {
 		game.canvas = $('#gamecanvas')[0];
 		game.context = game.canvas.getContext('2d');
 	},
+	goHomePage:function(){
+		$('#scorescreen').hide();
+		$('#levelselectscreen').hide();
+		$('#gamestartscreen').show();	
+	},
 	showLevelScreen:function(){
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
+		$('#scorescreen').show();
+		$('#gobackbutton').attr('onclick','game.goHomePage();');
+		$('#score').hide();
 	},
 	restartLevel:function(){
 		window.cancelAnimationFrame(game.animationFrame);		
@@ -83,16 +91,13 @@ var game = {
 		game.lastUpdateTime = undefined;
 		levels.load(game.currentLevel.number+1);
 	},
-	goHomePage:function(){
-		$('#levelselectscreen').hide();
-		$('#gamestartscreen').show();	
-	},
 	start:function(){
 		$('.gamelayer').hide();
+		$('#gobackbutton').attr('onclick','game.restartLevel();');
+		$('#score').show();
+		$('#scorescreen').show();
 		//mostrar canvar y score
 		$('#gamecanvas').show();
-		$('#scorescreen').show();
-	
 		game.mode = "intro";	
 		game.offsetLeft = 0;
 		game.ended = false;

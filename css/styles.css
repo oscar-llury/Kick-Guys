@@ -65,6 +65,7 @@
     font:32px Comic Sans MS;
     text-shadow: 0 0 2px #000;
     color: white;
+	z-index:10;
 }
 
 #scorescreen img{
