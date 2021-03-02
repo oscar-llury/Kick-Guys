@@ -1,10 +1,15 @@
 #gamecontainer {
     width: 640px;
     height: 480px;
-    background: url(../assets/images/background-inicio.png);
+    background: url(../assets/images/background-inicio.jpg);
     border: 1px solid black;
+	background-size: cover;
 }
-
+#imgLogo{
+	width:200px;
+	display: block;
+	margin:auto!important;
+}
 .gamelayer {
     width :640px;
     height: 480px;
@@ -18,7 +23,7 @@
 
 /*Pantalla de inicio del juego*/
 #gamestartscreen {
-    padding-top: 250px;
+    padding-top: 50px;
     text-align: center;
 }
 

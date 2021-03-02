@@ -253,7 +253,7 @@ var game = {
 		if (game.mode=="level-success"){
 			if(game.currentLevel.number<levels.data.length-1){
 				$('#endingmessage').html('Level Complete. Well Done!!!');
-				$('#playnextlevel').html('<td><img src="assets/images/prev.png" onclick="game.nextLevel();"></td><td>Play Next Level</td>');
+				$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>Play Next Level</td>');
 				
 			} else {
 				$('#endingmessage').html('All Levels Complete. Well Done!!!');
@@ -262,10 +262,10 @@ var game = {
 			
 		} else if (game.mode=="level-failure"){			
 			$('#endingmessage').html('Failed. Play Again?');
-			$('#playcurrentlevel').html('<td><img src="assets/images/prev.png" onclick="game.restartLevel();"></td><td>Replay Current Level</td>');
+			$('#playcurrentlevel').html('<td><img src="assets/images/retry.png" onclick="game.restartLevel();"></td><td>Replay Current Level</td>');
 		}
 		
-		$('#returntolevelscreen').html('<td><img src="assets/images/prev.png" onclick="game.showLevelScreen();"></td><td>Return to Level Screen</td>');		
+		$('#returntolevelscreen').html('<td><img src="assets/images/home.png" onclick="game.showLevelScreen();"></td><td>Return to Level Screen</td>');		
 		$('#endingscreen').show();
 	},
 	animate:function(){
