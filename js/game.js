@@ -83,6 +83,10 @@ var game = {
 		game.lastUpdateTime = undefined;
 		levels.load(game.currentLevel.number+1);
 	},
+	goHomePage:function(){
+		$('#levelselectscreen').hide();
+		$('#gamestartscreen').show();	
+	},
 	start:function(){
 		$('.gamelayer').hide();
 		//mostrar canvar y score
