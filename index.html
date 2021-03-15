@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>Virusnake 2.0</title>
+    <title>Kick Guys</title>
     <script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/Box2dWeb-2.1.a.3.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/constants.js" type="text/javascript" charset="utf-8"></script>
@@ -14,7 +14,7 @@
     <div id="gamecontainer">
       <canvas id="gamecanvas" width="640" height="480" class="gamelayer"></canvas>
 			<div id="scorescreen" class="gamelayer">
-				<img id="togglemusic" src="assets/images/sound.png">
+				<img id="togglemusic" src="assets/images/nosound.png" onclick="game.toggleBackgroundMusic();">
 				<img id="gobackbutton" src="assets/images/return.png">
 				<span id="score"></span>
 			</div>

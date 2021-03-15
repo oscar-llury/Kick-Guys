@@ -61,6 +61,19 @@ var game = {
 		levels.init();
 		loader.init();
 		mouse.init();
+		// Cargar todos los efectos de sonido y música de fondo
+	
+		//"Kindergarten" by Gurdonark
+		//http://ccmixter.org/files/gurdonark/26491 is licensed under a Creative Commons license
+		game.backgroundMusic = loader.loadSound('assets/sounds/gurdonark-kindergarten');
+		console.log(game.backgroundMusic);
+		game.slingshotReleasedSound = loader.loadSound("assets/sounds/released");
+		game.bounceSound = loader.loadSound('assets/sounds/bounce');
+		game.breakSound = {
+			"espiral":loader.loadSound('assets/sounds/glassbreak'),
+			"bloque":loader.loadSound('assets/sounds/woodbreak')
+		};
+		
 		// Ocultar todas las capas del juego y mostrar la pantalla de inicio
 		$('.gamelayer').hide();
 		$('#gamestartscreen').show();	
@@ -68,6 +81,27 @@ var game = {
 		//Obtener el controlador para el lienzo de juego y el contexto
 		game.canvas = $('#gamecanvas')[0];
 		game.context = game.canvas.getContext('2d');
+	},
+	startBackgroundMusic:function(){
+		var toggleImage = $("#togglemusic")[0];	
+		game.backgroundMusic.play();
+		toggleImage.src="assets/images/sound.png";	
+	},
+	stopBackgroundMusic:function(){
+		var toggleImage = $("#togglemusic")[0];	
+		toggleImage.src="assets/images/nosound.png";	
+		game.backgroundMusic.pause();
+		game.backgroundMusic.currentTime = 0; // Ir al comienzo de la canciÃ³n
+	},
+	toggleBackgroundMusic:function(){
+		var toggleImage = $("#togglemusic")[0];
+		if(game.backgroundMusic.paused){
+			game.backgroundMusic.play();
+			toggleImage.src="assets/images/sound.png";
+		} else {
+			game.backgroundMusic.pause();	
+			$("#togglemusic")[0].src="assets/images/nosound.png";
+		}
 	},
 	goHomePage:function(){
 		$('#scorescreen').hide();
@@ -175,7 +209,7 @@ var game = {
 				game.currentHero.SetPosition({x:(mouse.x+game.offsetLeft)/box2d.scale,y:mouse.y/box2d.scale});
 			} else {
 				game.mode = "fired";
-				//game.slingshotReleasedSound.play();								
+				game.slingshotReleasedSound.play();								
 				var impulseScaleFactor = 0.75;
 				
 				// Coordenadas del centro de la honda (donde la banda estÃ¡ atada a la honda)
@@ -598,7 +632,7 @@ var entities = {
 				} else if(definition.shape == "rectangle"){
 					box2d.createRectangle(entity,definition);					
 				}
-				//entity.breakSound = game.breakSound[entity.name];				
+				entity.breakSound = game.breakSound[entity.name];				
 				break;
 			case "ground": // Rectángulos simples
 				// No hay necesidad de salud. Estos son indestructibles
@@ -791,7 +825,6 @@ var loader ={
 		//comprueba el soporte para sonido
 		var mp3Support,oggSupport;
 		var audio = document.createElement('audio');
-		console.log(audio);
 		/*
 		if(audio.canPlayType){
 			//actualmente canPlayType devuelve: "","mayby" o "probably"
@@ -801,9 +834,11 @@ var loader ={
 			//la etiqueta de audio no es soportada
 			mp3Support = false;
 			oggSupport = false;
-		}*/
+		}
+		console.log(mp3Support);
+		console.log(oggSupport);
 		//comprueba para ogg, mp3 y finalmente fija soundFileExtn como undefined
-		//loader.soundFileExtn = oggSupport?".ogg":mp3Support?".mp3":undefined;
+		loader.soundFileExtn = oggSupport?".ogg":mp3Support?".mp3":undefined;
 	},
 	loadImage:function(url){
 		this.totalCount++;
