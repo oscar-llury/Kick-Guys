@@ -66,7 +66,6 @@ var game = {
 		//"Kindergarten" by Gurdonark
 		//http://ccmixter.org/files/gurdonark/26491 is licensed under a Creative Commons license
 		game.backgroundMusic = loader.loadSound('assets/sounds/gurdonark-kindergarten');
-		console.log(game.backgroundMusic);
 		game.slingshotReleasedSound = loader.loadSound("assets/sounds/released");
 		game.bounceSound = loader.loadSound('assets/sounds/bounce');
 		game.breakSound = {
@@ -104,11 +103,13 @@ var game = {
 		}
 	},
 	goHomePage:function(){
+		$('#gamecanvas').removeClass('blurBackground');
 		$('#scorescreen').hide();
 		$('#levelselectscreen').hide();
 		$('#gamestartscreen').show();	
 	},
 	showLevelScreen:function(){
+		$('#gamecanvas').removeClass('blurBackground');
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
 		$('#scorescreen').show();
@@ -116,11 +117,13 @@ var game = {
 		$('#score').hide();
 	},
 	restartLevel:function(){
+		$('#gamecanvas').removeClass('blurBackground');
 		window.cancelAnimationFrame(game.animationFrame);		
 		game.lastUpdateTime = undefined;
 		levels.load(game.currentLevel.number);
 	},
 	nextLevel:function(){
+		$('#gamecanvas').removeClass('blurBackground');
 		window.cancelAnimationFrame(game.animationFrame);		
 		game.lastUpdateTime = undefined;
 		levels.load(game.currentLevel.number+1);
@@ -301,6 +304,7 @@ var game = {
 		
 		$('#returntolevelscreen').html('<td><img src="assets/images/home.png" onclick="game.showLevelScreen();"></td><td>'+LIT_return_level_screen+'</td>');		
 		$('#endingscreen').show();
+		$('#gamecanvas').addClass('blurBackground');
 	},
 	animate:function(){
 		//animar el fondo
@@ -820,6 +824,7 @@ var loader ={
 	loaded:true,
 	loadedCount:0,//assets que han sido cargados antes
 	totalCount:0,//numero total de assets que es necesario cargar
+	language:'esp',//bandera de idioma
 
 	init:function(){
 		//comprueba el soporte para sonido
@@ -835,10 +840,12 @@ var loader ={
 			mp3Support = false;
 			oggSupport = false;
 		}
-		console.log(mp3Support);
-		console.log(oggSupport);
 		//comprueba para ogg, mp3 y finalmente fija soundFileExtn como undefined
 		loader.soundFileExtn = oggSupport?".ogg":mp3Support?".mp3":undefined;
+		
+		if(loader.language==='esp'){
+			$('#language').attr('src','assets/images/esp.png');
+		}
 	},
 	loadImage:function(url){
 		this.totalCount++;
