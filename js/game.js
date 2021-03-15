@@ -825,7 +825,7 @@ var loader ={
 		//comprueba el soporte para sonido
 		var mp3Support,oggSupport;
 		var audio = document.createElement('audio');
-		/*
+		
 		if(audio.canPlayType){
 			//actualmente canPlayType devuelve: "","mayby" o "probably"
 			mp3Support = "" != audio.canPlayType('audio/mpeg');
