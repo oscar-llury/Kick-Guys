@@ -5,6 +5,7 @@
     <title>Virusnake 2.0</title>
     <script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/Box2dWeb-2.1.a.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/constants.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/game.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" charset="utf-8">
   </head>
@@ -15,7 +16,7 @@
 			<div id="scorescreen" class="gamelayer">
 				<img id="togglemusic" src="assets/images/sound.png">
 				<img id="gobackbutton" src="assets/images/return.png">
-				<span id="score">Score: 0</span>
+				<span id="score"></span>
 			</div>
       
       <div id="gamestartscreen" class="gamelayer">
@@ -36,7 +37,7 @@
                 <table id="endingInfo">
 					<thead>
 						<tr>
-							<td id="endingmessage" colspan="2">The Level Is Over</td>
+							<td id="endingmessage" colspan="2"></td>
 						</tr>
 					</thead>
 					<tbody>

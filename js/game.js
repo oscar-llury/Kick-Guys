@@ -252,20 +252,20 @@ var game = {
 		//game.stopBackgroundMusic();				
 		if (game.mode=="level-success"){
 			if(game.currentLevel.number<levels.data.length-1){
-				$('#endingmessage').html('Level Complete. Well Done!!!');
-				$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>Play Next Level</td>');
+				$('#endingmessage').html(LIT_level_complete);
+				$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>'+LIT_play_next_level+'</td>');
 				
 			} else {
-				$('#endingmessage').html('All Levels Complete. Well Done!!!');
+				$('#endingmessage').html(LIT_no_more_levels);
 				
 			}
 			
 		} else if (game.mode=="level-failure"){			
-			$('#endingmessage').html('Failed. Play Again?');
-			$('#playcurrentlevel').html('<td><img src="assets/images/retry.png" onclick="game.restartLevel();"></td><td>Replay Current Level</td>');
+			$('#endingmessage').html(LIT_fail_level);
+			$('#playcurrentlevel').html('<td><img src="assets/images/retry.png" onclick="game.restartLevel();"></td><td>'+LIT_replay_level+'</td>');
 		}
 		
-		$('#returntolevelscreen').html('<td><img src="assets/images/home.png" onclick="game.showLevelScreen();"></td><td>Return to Level Screen</td>');		
+		$('#returntolevelscreen').html('<td><img src="assets/images/home.png" onclick="game.showLevelScreen();"></td><td>'+LIT_return_level_screen+'</td>');		
 		$('#endingscreen').show();
 	},
 	animate:function(){
@@ -312,7 +312,7 @@ var game = {
 					box2d.world.DestroyBody(body);
 					if (entity.type=="villain"){
 						game.score += entity.calories;
-						$('#score').html('Score: '+game.score);
+						$('#score').html(LIT_score+game.score);
 					}
 					if (entity.breakSound){
 						entity.breakSound.play();
@@ -447,6 +447,7 @@ var levels = {
 		var maxLine = Math.round(levels.data.length/2);
 		var cont=0;
 		var i=0;
+		html += '<div><h1>'+LIT_select_nivel+'</h1></div>';
 		while(i<levels.data.length){
 			html += '<div>';
 			while((cont<maxLine)&&(i<levels.data.length)){
@@ -474,7 +475,7 @@ var levels = {
 		// Declarar un nuevo objeto de nivel actual
 		game.currentLevel = {number:number,hero:[]};
 		game.score=0;
-		$('#score').html('Score: '+game.score);
+		$('#score').html(LIT_score+game.score);
 		game.currentHero = undefined;
 		var level = levels.data[number];
 
@@ -790,6 +791,7 @@ var loader ={
 		//comprueba el soporte para sonido
 		var mp3Support,oggSupport;
 		var audio = document.createElement('audio');
+		console.log(audio);
 		/*
 		if(audio.canPlayType){
 			//actualmente canPlayType devuelve: "","mayby" o "probably"
@@ -824,7 +826,7 @@ var loader ={
 	},
 	itemLoaded:function(){
 		loader.loadedCount++;
-		$('#loadingmessage').html('Loaded'+loader.loadedCount+' of '+loader.totalCount);
+		$('#loadingmessage').html(LIT_loaded_media_1+loader.loadedCount+LIT_loaded_media_2+loader.totalCount);
 		if(loader.loadedCount === loader.totalCount){
 			//el loader ha cargado completamente
 			loader.loaded = true;
