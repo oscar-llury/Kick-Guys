@@ -69,7 +69,7 @@ var game = {
 		game.slingshotReleasedSound = loader.loadSound("assets/sounds/released");
 		game.bounceSound = loader.loadSound('assets/sounds/bounce');
 		game.breakSound = {
-			"espiral":loader.loadSound('assets/sounds/glassbreak'),
+			//"espiral":loader.loadSound('assets/sounds/espiralbreak'),
 			"bloque":loader.loadSound('assets/sounds/woodbreak')
 		};
 		
@@ -452,19 +452,104 @@ var levels = {
 			foreground:'N3-foreground',
 			background:'N3-background',
 			icon:'N3-icon',
-			entities:[],
+			entities:[ 
+					{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+					{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+                {type:"block", name:"bloque", x:820,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:720,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"espiral", x:670,y:317.5,width:100,height:25},
+				{type:"block", name:"espiral", x:770,y:317.5,width:100,height:25},				
+
+				{type: "block",name:"bloque",x: 820, y: 255,angle: 90,width: 100,height: 25},
+				{type:"block", name:"bloque", x:720,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:620,y:255,angle:90,width:100,height:25},				
+				{type:"block", name:"espiral", x:670,y:192.5,width:100,height:25},
+				{type:"block", name:"espiral", x:770,y:192.5,width:110,height:25},
+				
+				{type:"villain", name:"villano",x:715,y:155,calories:590},
+				{type:"villain", name:"villano",x:670,y:405,calories:420},
+				{type:"villain", name:"villano",x:765,y:400,calories:150},
+
+				{type:"hero", name:"ciruela",x:30,y:415},
+				{type:"hero", name:"melocoton",x:80,y:405},
+				{type:"hero", name:"manzana",x:140,y:405},
+
+		]
 		},
 		{//Cuarto nivel 
 			foreground:'N4-foreground',
 			background:'N4-background',
 			icon:'N4-icon',
-			entities:[],
+			entities:[
+			{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+			{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+			
+				{type:"block", name:"bloque", x:550,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:550,y:317.5,width:100,height:25},
+				{type:"block", name:"bloque", x:820,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:720,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"espiral", x:670,y:317.5,width:100,height:25},				
+				{type:"block", name:"espiral", x:770,y:317.5,width:100,height:25},
+				{type: "block",name:"bloque",x: 820, y: 255,angle: 90,width: 100,height: 25},
+				{type:"block", name:"bloque", x:720,y:255,angle:90,width:100,height:25},
+			    {type:"block", name:"pelota", x:400,y:410,angle:90,width:50,height:50},
+				{type:"block", name:"bloque", x:620,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"espiral", x:670,y:192.5,width:110,height:25},
+				{type:"block", name:"espiral", x:770,y:192.5,width:110,height:25},
+				
+				{type:"villain", name:"villano",x:550,y:255,calories:590},
+				{type:"villain", name:"villano",x:670,y:405,calories:420},
+				{type:"villain", name:"villano",x:765,y:255,calories:150},
+				{type:"villain", name:"villano",x:765,y:155,calories:150},
+				{type:"villain", name:"villano",x:765,y:400,calories:150},
+
+				{type:"hero", name:"ciruela",x:30,y:415},
+				{type:"hero", name:"melocoton",x:80,y:405},
+				{type:"hero", name:"manzana",x:140,y:405},
+			
+					],
 		},
 		{//Quinto nivel 
 			foreground:'N5-foreground',
 			background:'N5-background',
 			icon:'N5-icon',
-			entities:[],
+			entities:[
+			{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+			{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+			
+				{type: "block", name:"bloque",x:550, y:380,angle: 90,width: 100,height: 25},
+			    {type: "block",name: "bloque",x:550,y:317.5,width: 100,height: 25},
+				{type: "block",name: "bloque",x:545,y:280,angle: 90,width: 100,height: 25},
+                {type: "block",name: "bloque", x:545,y:240.5,width: 100,height: 25},
+                {type: "block",name: "bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
+                {type: "block",name: "bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
+                {type: "block",name: "bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
+                {type: "block",name: "espiral",x:670,y: 320.5,width: 110,height: 25},
+                {type: "block",name: "espiral",x:770,y: 320.5,width: 110,height: 25},
+                {type: "block",name: "bloque",x:655,y: 255,angle: -45, width: 130,height: 15},
+                {type: "block",name: "bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
+                {type: "block",name: "bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
+                {type: "block",name: "espiral",x:770,y: 180,width: 130,height: 20},
+                {type: "block",name: "bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
+                {type: "block", name: "bloque",x: 870,y: 255,angle: 90,width: 100, height: 25},
+                {type: "block",name: "bloque",x: 870,y: 170,angle: 90,width: 50,height: 25},
+                {type: "block",name: "bloque",x: 870,y: 317.5,width: 100,height: 25},
+
+                {type:"villain", name:"villano",x:780,y:270,calories:590},
+				{type:"villain", name:"villano",x:665,y:405,calories:420},
+				{type:"villain", name:"villano",x:780,y:170,calories:420},
+				{type:"villain", name:"villano",x:870,y:150,calories:150},
+				{type:"villain", name:"villano",x:765,y:405,calories:150},
+				{type:"villain", name:"villano",x:900,y:405,calories:590},
+				{type:"villain", name:"villano",x:580,y:290,calories:200},
+
+				{type:"hero", name:"ciruela",x:30,y:415},
+				{type:"hero", name:"melocoton",x:80,y:405},
+				{type:"hero", name:"manzana",x:140,y:405},
+			
+			],
 		},
 		{//Sexto nivel 
 			foreground:'N6-foreground',
