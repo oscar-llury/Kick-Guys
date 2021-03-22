@@ -55,6 +55,8 @@ var game = {
 	//la puntuacion del juego
 	scrore:0,
 	decelerating:0,
+	//No hay sonido
+	noSound:true,
 	
 	init: function(){
 		//inicializar objetos
@@ -89,19 +91,20 @@ var game = {
 	stopBackgroundMusic:function(){
 		var toggleImage = $("#togglemusic")[0];	
 		toggleImage.src="assets/images/nosound.png";	
-		game.backgroundMusic.pause();
 		game.backgroundMusic.currentTime = 0; // Ir al comienzo de la canciÃ³n
 	},
 	toggleBackgroundMusic:function(){
 		var toggleImage = $("#togglemusic")[0];
 		if(game.backgroundMusic.paused){
 			game.backgroundMusic.play();
-			toggleImage.src="assets/images/sound.png";
+			$("#togglemusic")[0].src="assets/images/sound.png";
 		} else {
 			game.backgroundMusic.pause();	
 			$("#togglemusic")[0].src="assets/images/nosound.png";
 		}
+		game.noSound = !game.noSound;
 	},
+	
 	goHomePage:function(){
 		$('#gamecanvas').removeClass('blurBackground');
 		$('#scorescreen').hide();
@@ -212,7 +215,9 @@ var game = {
 				game.currentHero.SetPosition({x:(mouse.x+game.offsetLeft)/box2d.scale,y:mouse.y/box2d.scale});
 			} else {
 				game.mode = "fired";
-				game.slingshotReleasedSound.play();								
+				if(!game.noSound){
+					game.slingshotReleasedSound.play();
+				}
 				var impulseScaleFactor = 0.75;
 				
 				// Coordenadas del centro de la honda (donde la banda estÃ¡ atada a la honda)
@@ -352,8 +357,10 @@ var game = {
 						game.score += entity.calories;
 						$('#score').html(LIT_score+game.score);
 					}
-					if (entity.breakSound){
-						entity.breakSound.play();
+					if(!game.noSound){	
+						if (entity.breakSound){
+							entity.breakSound.play();
+						}
 					}
 				} else {
 					entities.draw(entity,body.GetPosition(),body.GetAngle())				
@@ -893,14 +900,15 @@ var box2d = {
 				if (entity2.health){
 					entity2.health -= impulseAlongNormal;
 				}	
-		
-				// Si los objetos tienen un sonido de rebote, reproducirlos				
-				if (entity1.bounceSound){
-					entity1.bounceSound.play();
-				}
+				if(!game.noSound){
+					// Si los objetos tienen un sonido de rebote, reproducirlos				
+					if (entity1.bounceSound){
+						entity1.bounceSound.play();
+					}
 
-				if (entity2.bounceSound){
-					entity2.bounceSound.play();
+					if (entity2.bounceSound){
+						entity2.bounceSound.play();
+					}
 				}
 			} 
 		};
