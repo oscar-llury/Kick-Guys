@@ -26,9 +26,9 @@
 		<img id="language" class="IMGlanguage">
 		<img id="imgLogo" src="assets/images/LOGO.png">
 		<br>
-        <img src="assets/images/play.png" alt="Play Game" onclick="game.showLevelScreen();" class="cursorPointer">
+        <img id="playGameBut" alt="Play Game" onclick="game.showLevelScreen();" class="cursorPointer">
         </br>
-        <img src="assets/images/settings.png" alt="Settings" onclick="setting.showSettingScreen();" class="cursorPointer">
+        <img id="settingBut" alt="Settings" onclick="setting.showSettingScreen();" class="cursorPointer">
       </div>
 
       <div id="levelselectscreen" class="gamelayer"></div>
@@ -51,6 +51,11 @@
 						</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"><button id="saveSettings" onclick="setting.saveSetting()"></button></td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 

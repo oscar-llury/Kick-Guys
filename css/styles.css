@@ -152,3 +152,6 @@
 	text-align: center;
 	font-size: 25px;
 }
+#settingsInfo tfoot td{
+	text-align: center;
+}

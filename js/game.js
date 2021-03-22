@@ -61,7 +61,6 @@ var game = {
 	
 	init: function(){
 		//inicializar objetos
-		levels.init();
 		loader.init();
 		mouse.init();
 		// Cargar todos los efectos de sonido y música de fondo
@@ -111,6 +110,7 @@ var game = {
 		$('#gamestartscreen').show();	
 	},
 	showLevelScreen:function(){
+		levels.init();
 		$('#gamecanvas').removeClass('blurBackground');
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
@@ -293,19 +293,19 @@ var game = {
 		//game.stopBackgroundMusic();				
 		if (game.mode=="level-success"){
 			if(game.currentLevel.number<levels.data.length-1){
-				$('#endingmessage').html(LIT_level_complete);
-				$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>'+LIT_play_next_level+'</td>');
+				$('#endingmessage').html(getLit('LIT_level_complete',loader.language));
+				$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>'+getLit('LIT_play_next_level',loader.language)+'</td>');
 				
 			} else {
-				$('#endingmessage').html(LIT_no_more_levels);
+				$('#endingmessage').html(getLit('LIT_no_more_levels',loader.language));
 			}
 			
 		} else if (game.mode=="level-failure"){			
-			$('#endingmessage').html(LIT_fail_level);
-			$('#playcurrentlevel').html('<td><img src="assets/images/retry.png" onclick="game.restartLevel();"></td><td>'+LIT_replay_level+'</td>');
+			$('#endingmessage').html(getLit('LIT_fail_level',loader.language));
+			$('#playcurrentlevel').html('<td><img src="assets/images/retry.png" onclick="game.restartLevel();"></td><td>'+getLit('LIT_replay_level',loader.language)+'</td>');
 		}
 		
-		$('#returntolevelscreen').html('<td><img src="assets/images/home.png" onclick="game.showLevelScreen();"></td><td>'+LIT_return_level_screen+'</td>');		
+		$('#returntolevelscreen').html('<td><img src="assets/images/home.png" onclick="game.showLevelScreen();"></td><td>'+getLit('LIT_return_level_screen',loader.language)+'</td>');		
 		$('#endingscreen').show();
 		$('#gamecanvas').addClass('blurBackground');
 	},
@@ -353,7 +353,7 @@ var game = {
 					box2d.world.DestroyBody(body);
 					if (entity.type=="villain"){
 						game.score += entity.calories;
-						$('#score').html(LIT_score+game.score);
+						$('#score').html(getLit('LIT_score',loader.language)+game.score);
 					}
 					if(!game.noSound){	
 						if (entity.breakSound){
@@ -638,7 +638,8 @@ var levels = {
 		var maxLine = Math.round(levels.data.length/2);
 		var cont=0;
 		var i=0;
-		html += '<div><h1>'+LIT_select_nivel+'</h1></div>';
+		html += '<div><h1>'+getLit('LIT_select_nivel',loader.language)+'</h1></div>';
+		console.log(loader.language);
 		while(i<levels.data.length){
 			html += '<div>';
 			while((cont<maxLine)&&(i<levels.data.length)){
@@ -666,7 +667,7 @@ var levels = {
 		// Declarar un nuevo objeto de nivel actual
 		game.currentLevel = {number:number,hero:[]};
 		game.score=0;
-		$('#score').html(LIT_score+game.score);
+		$('#score').html(getLit('LIT_score',loader.language)+game.score);
 		game.currentHero = undefined;
 		var level = levels.data[number];
 
@@ -978,9 +979,18 @@ var loader ={
 		}
 		//comprueba para ogg, mp3 y finalmente fija soundFileExtn como undefined
 		loader.soundFileExtn = oggSupport?".ogg":mp3Support?".mp3":undefined;
-		
+		loader.changeIndexLanguage(loader.language);
+	},
+	changeIndexLanguage(){
 		if(loader.language==='esp'){
 			$('#language').attr('src','assets/images/esp.png');
+			$('#playGameBut').attr('src','assets/images/play.png');
+			$('#settingBut').attr('src','assets/images/settings.png');
+		}
+		if(loader.language==='eeuu'){
+			$('#language').attr('src','assets/images/eeuu.png');
+			$('#playGameBut').attr('src','assets/images/settings.png');
+			$('#settingBut').attr('src','assets/images/play.png');
 		}
 	},
 	loadImage:function(url){
@@ -1004,7 +1014,7 @@ var loader ={
 	},
 	itemLoaded:function(){
 		loader.loadedCount++;
-		$('#loadingmessage').html(LIT_loaded_media_1+loader.loadedCount+LIT_loaded_media_2+loader.totalCount);
+		$('#loadingmessage').html(getLit('LIT_loaded_media_1',loader.language)+loader.loadedCount+getLit('LIT_loaded_media_2',loader.language)+loader.totalCount);
 		if(loader.loadedCount === loader.totalCount){
 			//el loader ha cargado completamente
 			loader.loaded = true;
@@ -1050,31 +1060,43 @@ var mouse = {
 }
 
 var setting = {
+	language:'',
 	changeSettingsLanguage(language){
 		if(language==='esp'){
 			$('#languageSettings').attr('src','assets/images/esp.png');
+			$("#selectLanguage").find("option[value='esp']").attr('selected','selected');
 			$('#textSelectLanguage').text('Seleccionar idioma');
 			$('#settingsmessage').text('Ajustes de usuario');
+			$('#saveSettings').text('Guardar');
+			setting.language='esp';
 		}
 		if(language==='eeuu'){
 			$('#languageSettings').attr('src','assets/images/eeuu.png');
+			$("#selectLanguage").find("option[value='eeuu']").attr('selected','selected');
 			$('#textSelectLanguage').text('Select language');
 			$('#settingsmessage').text('User settings');
+			$('#saveSettings').text('Save');
+			setting.language='eeuu';
 		}
 	},
 	showSettingScreen:function(){
 		$('.gamelayer').hide();
 		$('#settingscreen').show();
 		language = loader.language;
-		setting.changeSettingsLanguage(language);
-		$("#selectLanguage").prepend("<option value='esp' selected='selected'>Español</option>");
+		$('#selectLanguage').empty();
+		$("#selectLanguage").prepend("<option value='esp'>Español</option>");
 		$("#selectLanguage").prepend("<option value='eeuu'>English</option>");
+		setting.changeSettingsLanguage(language);
 		$("#selectLanguage" ).change(function() {
 			option = $(this).val();
 			setting.changeSettingsLanguage(option);
 		});
 		//$("#selectLanguage").find("option[value='esp']").text('hola');
-		
 	},
-	
+	saveSetting:function(){
+		loader.language=setting.language;
+		loader.changeIndexLanguage(setting.language);
+		$('#settingscreen').hide();
+		$('#gamestartscreen').show();
+	},
 }

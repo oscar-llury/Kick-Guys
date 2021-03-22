@@ -1,15 +1,40 @@
-/*select level screen*/
-const LIT_select_nivel = 'Selecciona un nivel';
-const LIT_loaded_media_1 = 'Cargados ';
-const LIT_loaded_media_2 = ' de ';
+function getLit(lit,language){
+	switch (language){
+		case 'esp':{
+			switch (lit){
+				case 'LIT_select_nivel': return 'Selecciona un nivel';
+				case 'LIT_loaded_media_1': return 'Cargados ';
+				case 'LIT_loaded_media_2': return' de ';
 
-/*game screen*/
-const LIT_score = 'Puntos: ';
+			/*game screen*/
+				case 'LIT_score': return 'Puntos: ';
 
-/*end level screen*/
-const LIT_level_complete = 'Nivel completado!!';
-const LIT_play_next_level = 'Siguiente nivel';
-const LIT_replay_level = 'Volver a jugar';
-const LIT_return_level_screen = 'Seleccionar otro nivel';
-const LIT_no_more_levels = 'Enhorabuena, fin del juego!!';
-const LIT_fail_level = 'Nivel fallido';
+			/*end level screen*/
+				case 'LIT_level_complete': return 'Nivel completado!!';
+				case 'LIT_play_next_level': return 'Siguiente nivel';
+				case 'LIT_replay_level': return 'Volver a jugar';
+				case 'LIT_return_level_screen': return 'Seleccionar otro nivel';
+				case 'LIT_no_more_levels': return 'Enhorabuena, fin del juego!!';
+				case 'LIT_fail_level': return 'Nivel fallido';
+			}
+		};
+		case 'eeuu':{
+			switch (lit){
+				case 'LIT_select_nivel': return 'Select a level';
+				case 'LIT_loaded_media_1': return 'Loaded ';
+				case 'LIT_loaded_media_2': return' of ';
+
+			/*game screen*/
+				case 'LIT_score': return 'Score: ';
+
+			/*end level screen*/
+				case 'LIT_level_complete': return 'Level completed!!';
+				case 'LIT_play_next_level': return 'Next level';
+				case 'LIT_replay_level': return 'Replay level';
+				case 'LIT_return_level_screen': return 'Select other level';
+				case 'LIT_no_more_levels': return 'Congratulation, game finished!!';
+				case 'LIT_fail_level': return 'Level failed';
+			}
+		};
+	}
+}
