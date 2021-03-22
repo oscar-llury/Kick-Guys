@@ -112,6 +112,7 @@ var game = {
 	showLevelScreen:function(){
 		levels.init();
 		$('#gamecanvas').removeClass('blurBackground');
+		$('#gobackbutton').attr('src','assets/images/return.png');
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
 		$('#scorescreen').show();
@@ -133,6 +134,7 @@ var game = {
 	start:function(){
 		$('.gamelayer').hide();
 		$('#gobackbutton').attr('onclick','game.restartLevel();');
+		$('#gobackbutton').attr('src','assets/images/retry.png');
 		$('#score').show();
 		$('#scorescreen').show();
 		//mostrar canvar y score
@@ -639,7 +641,6 @@ var levels = {
 		var cont=0;
 		var i=0;
 		html += '<div><h1>'+getLit('LIT_select_nivel',loader.language)+'</h1></div>';
-		console.log(loader.language);
 		while(i<levels.data.length){
 			html += '<div>';
 			while((cont<maxLine)&&(i<levels.data.length)){
