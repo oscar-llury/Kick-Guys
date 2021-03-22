@@ -65,15 +65,13 @@ var game = {
 		loader.init();
 		mouse.init();
 		// Cargar todos los efectos de sonido y música de fondo
-	
-		//"Kindergarten" by Gurdonark
-		//http://ccmixter.org/files/gurdonark/26491 is licensed under a Creative Commons license
-		game.backgroundMusic = loader.loadSound('assets/sounds/gurdonark-kindergarten');
+		game.backgroundMusic = loader.loadSound('assets/sounds/Survive-the-Fall');
 		game.slingshotReleasedSound = loader.loadSound("assets/sounds/released");
 		game.bounceSound = loader.loadSound('assets/sounds/bounce');
+		game.bouncehitSound = loader.loadSound('assets/sounds/hit');
 		game.breakSound = {
-			//"espiral":loader.loadSound('assets/sounds/espiralbreak'),
-			"bloque":loader.loadSound('assets/sounds/woodbreak')
+			"espiral":loader.loadSound('assets/sounds/espiralbreak'),
+			"bloque":loader.loadSound('assets/sounds/blockbreak')
 		};
 		
 		// Ocultar todas las capas del juego y mostrar la pantalla de inicio
@@ -821,7 +819,7 @@ var entities = {
 				entity.fullHealth = definition.fullHealth;
 				entity.sprite = loader.loadImage("assets/entities/"+entity.name+"-"+Math.round(Math.random()*(15 - 1) + 1)+".png");
 				entity.shape = definition.shape;  
-				entity.bounceSound = game.bounceSound;
+				entity.bounceSound = game.bouncehitSound;
 				if(definition.shape == "circle"){
 					entity.radius = definition.radius;
 					box2d.createCircle(entity,definition);
