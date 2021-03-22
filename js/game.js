@@ -38,6 +38,7 @@ var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 $(window).load(function() {
 	game.init();
 });
+
 var game = {
 	// Inicialización de objetos, precarga de elementos y pantalla de inicio
 	//modo Juego 
@@ -118,6 +119,25 @@ var game = {
 		$('#scorescreen').show();
 		$('#gobackbutton').attr('onclick','game.goHomePage();');
 		$('#score').hide();
+	},
+	showSettingScreen:function(){
+		$('.gamelayer').hide();
+		$('#settingscreen').show();
+		language = loader.language;
+		if(language==='esp'){
+			$('#languageSettings').attr('src','assets/images/esp.png');
+		}
+		if(language==='eeuu'){
+			$('#languageSettings').attr('src','assets/images/eeuu.png');
+		}
+		//$('#selectLanguage')[0].append($("<option>",{value:esp, text:Español}));
+		$('#selectLanguage')[0].append($("<option>", {
+			value: 'esp',
+			text: 'ESPAÑOL'
+		}));
+		$('#selectLanguage')[0].append('<option name="eeuu" value="eeuu">Inglés</option>');
+		
+		
 	},
 	restartLevel:function(){
 		$('#gamecanvas').removeClass('blurBackground');
@@ -412,20 +432,20 @@ var levels = {
 			background:'N1-background',
 			icon:'N1-icon',
 			entities:[
-				{type:"ground", name:"suelo", x:500,y:440,width:1000,height:20,isStatic:true},
-				{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground",name:"suelo", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 				
-				{type:"block", name:"espiral", x:520,y:380,angle:90,width:100,height:25},	
-				{type:"block", name:"espiral", x:620,y:280,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:520,y:280,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"pelota", x:400,y:410,angle:90,width:50,height:50},
+				{type:"block",name:"espiral", x:520,y:380,angle:90,width:100,height:25},	
+				{type:"block",name:"espiral", x:620,y:280,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:520,y:280,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"pelota", x:400,y:410,angle:90,width:50,height:50},
 				
-				{type:"villain", name:"villano",x:520,y:205,calories:590},
-				{type:"villain", name:"villano", x:620,y:205,calories:420},
+				{type:"villain",name:"villano",x:520,y:205,calories:590},
+				{type:"villain",name:"villano", x:620,y:205,calories:420},
 
-				{type:"hero", name:"melocoton",x:80,y:405},
-				{type:"hero", name:"manzana",x:140,y:405},
+				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"manzana",x:140,y:405},
 			]
 		},
 		{// Segundo nivel
@@ -460,27 +480,28 @@ var levels = {
 			background:'N3-background',
 			icon:'N3-icon',
 			entities:[ 
-					{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
-					{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
-                {type:"block", name:"bloque", x:820,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:720,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"espiral", x:670,y:317.5,width:100,height:25},
-				{type:"block", name:"espiral", x:770,y:317.5,width:100,height:25},				
-
-				{type: "block",name:"bloque",x: 820, y: 255,angle: 90,width: 100,height: 25},
-				{type:"block", name:"bloque", x:720,y:255,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:620,y:255,angle:90,width:100,height:25},				
-				{type:"block", name:"espiral", x:670,y:192.5,width:100,height:25},
-				{type:"block", name:"espiral", x:770,y:192.5,width:110,height:25},
+				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 				
-				{type:"villain", name:"villano",x:715,y:155,calories:590},
-				{type:"villain", name:"villano",x:670,y:405,calories:420},
-				{type:"villain", name:"villano",x:765,y:400,calories:150},
+                {type:"block",name:"bloque", x:820,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:720,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"espiral", x:670,y:317.5,width:100,height:25},
+				{type:"block",name:"espiral", x:770,y:317.5,width:100,height:25},				
 
-				{type:"hero", name:"ciruela",x:30,y:415},
-				{type:"hero", name:"melocoton",x:80,y:405},
-				{type:"hero", name:"manzana",x:140,y:405},
+				{type:"block",name:"bloque",x: 820, y: 255,angle: 90,width: 100,height: 25},
+				{type:"block",name:"bloque", x:720,y:255,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:620,y:255,angle:90,width:100,height:25},				
+				{type:"block",name:"espiral", x:670,y:192.5,width:100,height:25},
+				{type:"block",name:"espiral", x:770,y:192.5,width:110,height:25},
+				
+				{type:"villain",name:"villano",x:715,y:155,calories:590},
+				{type:"villain",name:"villano",x:670,y:405,calories:420},
+				{type:"villain",name:"villano",x:765,y:400,calories:150},
+
+				{type:"hero",name:"ciruela",x:30,y:415},
+				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"manzana",x:140,y:405},
 
 		]
 		},
@@ -489,32 +510,32 @@ var levels = {
 			background:'N4-background',
 			icon:'N4-icon',
 			entities:[
-			{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
-			{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 			
-				{type:"block", name:"bloque", x:550,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:550,y:317.5,width:100,height:25},
-				{type:"block", name:"bloque", x:820,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:720,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"bloque", x:620,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"espiral", x:670,y:317.5,width:100,height:25},				
-				{type:"block", name:"espiral", x:770,y:317.5,width:100,height:25},
-				{type: "block",name:"bloque",x: 820, y: 255,angle: 90,width: 100,height: 25},
-				{type:"block", name:"bloque", x:720,y:255,angle:90,width:100,height:25},
-			    {type:"block", name:"pelota", x:400,y:410,angle:90,width:50,height:50},
-				{type:"block", name:"bloque", x:620,y:255,angle:90,width:100,height:25},
-				{type:"block", name:"espiral", x:670,y:192.5,width:110,height:25},
-				{type:"block", name:"espiral", x:770,y:192.5,width:110,height:25},
+				{type:"block",name:"bloque", x:550,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:550,y:317.5,width:100,height:25},
+				{type:"block",name:"bloque", x:820,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:720,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"bloque", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"espiral", x:670,y:317.5,width:100,height:25},				
+				{type:"block",name:"espiral", x:770,y:317.5,width:100,height:25},
+				{type:"block",name:"bloque",x: 820, y: 255,angle: 90,width: 100,height: 25},
+				{type:"block",name:"bloque", x:720,y:255,angle:90,width:100,height:25},
+			    {type:"block",name:"pelota", x:400,y:410,angle:90,width:50,height:50},
+				{type:"block",name:"bloque", x:620,y:255,angle:90,width:100,height:25},
+				{type:"block",name:"espiral", x:670,y:192.5,width:110,height:25},
+				{type:"block",name:"espiral", x:770,y:192.5,width:110,height:25},
 				
-				{type:"villain", name:"villano",x:550,y:255,calories:590},
-				{type:"villain", name:"villano",x:670,y:405,calories:420},
-				{type:"villain", name:"villano",x:765,y:255,calories:150},
-				{type:"villain", name:"villano",x:765,y:155,calories:150},
-				{type:"villain", name:"villano",x:765,y:400,calories:150},
+				{type:"villain",name:"villano",x:550,y:255,calories:590},
+				{type:"villain",name:"villano",x:670,y:405,calories:420},
+				{type:"villain",name:"villano",x:765,y:255,calories:150},
+				{type:"villain",name:"villano",x:765,y:155,calories:150},
+				{type:"villain",name:"villano",x:765,y:400,calories:150},
 
-				{type:"hero", name:"ciruela",x:30,y:415},
-				{type:"hero", name:"melocoton",x:80,y:405},
-				{type:"hero", name:"manzana",x:140,y:405},
+				{type:"hero",name:"ciruela",x:30,y:415},
+				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"manzana",x:140,y:405},
 			
 					],
 		},
@@ -523,32 +544,32 @@ var levels = {
 			background:'N5-background',
 			icon:'N5-icon',
 			entities:[
-			{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
-			{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 			
-                {type: "block",name: "bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
-                {type: "block",name: "bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
-                {type: "block",name: "bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
-                {type: "block",name: "espiral",x:670,y: 320.5,width: 110,height: 25},
-                {type: "block",name: "espiral",x:770,y: 320.5,width: 110,height: 25},
-                {type: "block",name: "bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
-                {type: "block",name: "bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
-                {type: "block",name: "espiral",x:770,y: 180,width: 130,height: 20},
-                {type: "block",name: "bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
-                {type: "block", name: "bloque",x: 870,y: 255,angle: 90,width: 100, height: 25},
-                {type: "block",name: "bloque",x: 870,y: 170,angle: 90,width: 50,height: 25},
-                {type: "block",name: "bloque",x: 870,y: 317.5,width: 100,height: 25},
+                {type:"block",name:"bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
+                {type:"block",name:"bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"espiral",x:670,y: 320.5,width: 110,height: 25},
+                {type:"block",name:"espiral",x:770,y: 320.5,width: 110,height: 25},
+                {type:"block",name:"bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
+                {type:"block",name:"bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
+                {type:"block",name:"espiral",x:770,y: 180,width: 130,height: 20},
+                {type:"block",name:"bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:870,y: 255,angle: 90,width: 100, height: 25},
+                {type:"block",name:"bloque",x:870,y: 170,angle: 90,width: 50,height: 25},
+                {type:"block",name:"bloque",x:870,y: 317.5,width: 100,height: 25},
 
-                {type:"villain", name:"villano",x:780,y:270,calories:590},
-				{type:"villain", name:"villano",x:665,y:405,calories:420},
-				{type:"villain", name:"villano",x:780,y:170,calories:420},
-				{type:"villain", name:"villano",x:870,y:150,calories:150},
-				{type:"villain", name:"villano",x:765,y:405,calories:150},
-				{type:"villain", name:"villano",x:900,y:405,calories:590},
+                {type:"villain",name:"villano",x:780,y:270,calories:590},
+				{type:"villain",name:"villano",x:665,y:405,calories:420},
+				{type:"villain",name:"villano",x:780,y:170,calories:420},
+				{type:"villain",name:"villano",x:870,y:150,calories:150},
+				{type:"villain",name:"villano",x:765,y:405,calories:150},
+				{type:"villain",name:"villano",x:900,y:405,calories:590},
 
-				{type:"hero", name:"ciruela",x:30,y:415},
-				{type:"hero", name:"melocoton",x:80,y:405},
-				{type:"hero", name:"manzana",x:140,y:405},
+				{type:"hero",name:"ciruela",x:30,y:415},
+				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"manzana",x:140,y:405},
 			
 			],
 		},
@@ -557,83 +578,82 @@ var levels = {
 			background:'N6-background',
 			icon:'N6-icon',
 			entities:[
-			{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
-			{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 			
-                {type: "block",name: "bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
-                {type: "block",name: "bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
-                {type: "block",name: "bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
-                {type: "block",name: "espiral",x:670,y: 320.5,width: 110,height: 25},
-                {type: "block",name: "espiral",x:770,y: 320.5,width: 110,height: 25},
-				{type:"block", name:"pelota", x:400,y:410,angle:90,width:50,height:50},
-                {type: "block",name: "bloque",x:655,y: 255,angle: -45, width: 130,height: 15},
-                {type: "block",name: "bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
-                {type: "block",name: "bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
-                {type: "block",name: "espiral",x:770,y: 180,width: 130,height: 20},
-                {type: "block",name: "bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
-                {type: "block", name: "bloque",x: 870,y: 255,angle: 90,width: 100, height: 25},
-                {type: "block",name: "bloque",x: 870,y: 170,angle: 90,width: 50,height: 25},
-                {type: "block",name: "bloque",x: 870,y: 317.5,width: 100,height: 25},
+                {type:"block",name:"bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
+                {type:"block",name:"bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"espiral",x:670,y: 320.5,width: 110,height: 25},
+                {type:"block",name:"espiral",x:770,y: 320.5,width: 110,height: 25},
+				{type:"block",name:"pelota",x:400,y:410,angle:90,width:50,height:50},
+                {type:"block",name:"bloque",x:655,y: 255,angle: -45, width: 130,height: 15},
+                {type:"block",name:"bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
+                {type:"block",name:"bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
+                {type:"block",name:"espiral",x:770,y: 180,width: 130,height: 20},
+                {type:"block",name:"bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:870,y: 255,angle: 90,width: 100, height: 25},
+                {type:"block",name:"bloque",x:870,y: 170,angle: 90,width: 50,height: 25},
+                {type:"block",name:"bloque",x:870,y: 317.5,width: 100,height: 25},
 
-                {type:"villain", name:"villano",x:780,y:270,calories:590},
-				{type:"villain", name:"villano",x:665,y:405,calories:420},
-				{type:"villain", name:"villano",x:780,y:170,calories:420},
-				{type:"villain", name:"villano",x:870,y:150,calories:150},
-				{type:"villain", name:"villano",x:765,y:405,calories:150},
-				{type:"villain", name:"villano",x:900,y:405,calories:590},
-				{type:"villain", name:"villano",x:580,y:410,calories:200},
-				{type:"villain", name:"villano",x:900,y:290,calories:200},
+                {type:"villain",name:"villano",x:780,y:270,calories:590},
+				{type:"villain",name:"villano",x:665,y:405,calories:420},
+				{type:"villain",name:"villano",x:780,y:170,calories:420},
+				{type:"villain",name:"villano",x:870,y:150,calories:150},
+				{type:"villain",name:"villano",x:765,y:405,calories:150},
+				{type:"villain",name:"villano",x:900,y:405,calories:590},
+				{type:"villain",name:"villano",x:580,y:410,calories:200},
+				{type:"villain",name:"villano",x:900,y:290,calories:200},
 
-				{type:"hero", name:"ciruela",x:30,y:415},
-				{type:"hero", name:"melocoton",x:80,y:405},
-				{type:"hero", name:"manzana",x:140,y:405},
-				],
+				{type:"hero",name:"ciruela",x:30,y:415},
+				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"manzana",x:140,y:405},
+			],
 		},
 		{//Septimo nivel 
 			foreground:'N7-foreground',
 			background:'N7-background',
 			icon:'N7-icon',
 			entities:[
-			{type: "ground",name: "suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
-			{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
+				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 			
-			
-				{type: "block", name:"espiral",x:900,y:380,angle:90,width:100,height:25},
-				{type: "block",name: "bloque",x:900,y: 180,width: 130,height: 20},
-				{type: "block", name:"bloque",x:550, y:380,angle: 90,width: 100,height: 25},
-			    {type: "block",name: "bloque",x:550,y:317.5,width: 100,height: 25},
-				{type: "block",name: "bloque",x:545,y:280,angle: 90,width: 100,height: 25},
-                {type: "block",name: "bloque", x:545,y:240.5,width: 100,height: 25},
-                {type: "block",name: "bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
-                {type: "block",name: "bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
-                {type: "block",name: "bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
-                {type: "block",name: "espiral",x:670,y: 320.5,width: 110,height: 25},
-                {type: "block",name: "espiral",x:770,y: 320.5,width: 110,height: 25},
-				{type:"block", name:"pelota", x:400,y:410,angle:90,width:50,height:50},
-                {type: "block",name: "bloque",x:655,y: 255,angle: -45, width: 130,height: 15},
-                {type: "block",name: "bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
-                {type: "block",name: "bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
-                {type: "block",name: "espiral",x:770,y: 180,width: 130,height: 20},
-                {type: "block",name: "bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
-                {type: "block", name: "bloque",x:870,y: 255,angle: 90,width: 100, height: 25},
-                {type: "block",name: "bloque",x: 870,y: 170,angle: 90,width: 50,height: 25},
-                {type: "block",name: "bloque",x: 870,y: 317.5,width: 100,height: 25},
+				{type:"block",name:"espiral",x:900,y:380,angle:90,width:100,height:25},
+				{type:"block",name:"bloque",x:900,y: 180,width: 100,height: 20},
+				{type:"block",name:"bloque",x:550, y:380,angle: 90,width: 100,height: 25},
+			    {type:"block",name:"bloque",x:550,y:317.5,width: 100,height: 25},
+				{type:"block",name:"bloque",x:545,y:260,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:545,y:240.5,width: 100,height: 25},
+                {type:"block",name:"bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
+                {type:"block",name:"bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"espiral",x:670,y: 320.5,width: 110,height: 25},
+                {type:"block",name:"espiral",x:770,y: 320.5,width: 110,height: 25},
+				{type:"block",name:"pelota",x:400,y:410,angle:90,width:50,height:50},
+                {type:"block",name:"bloque",x:655,y: 255,angle: -45, width: 130,height: 15},
+                {type:"block",name:"bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
+                {type:"block",name:"bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
+                {type:"block",name:"espiral",x:770,y: 180,width: 130,height: 20},
+                {type:"block",name:"bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:870,y: 255,angle: 90,width: 100, height: 25},
+                {type:"block",name:"bloque",x:870,y: 170,angle: 90,width: 50,height: 25},
+                {type:"block",name:"bloque",x:870,y: 317.5,width: 100,height: 25},
 
-				{type:"villain", name:"villano",x:500,y:410,calories:350},
-                {type:"villain", name:"villano",x:780,y:270,calories:590},
-				{type:"villain", name:"villano",x:665,y:405,calories:420},
-				{type:"villain", name:"villano",x:780,y:170,calories:420},
-				{type:"villain", name:"villano",x:870,y:150,calories:150},
-				{type:"villain", name:"villano",x:765,y:405,calories:150},
-				{type:"villain", name:"villano",x:900,y:405,calories:590},
-				{type:"villain", name:"villano",x:580,y:290,calories:200},
-				{type:"villain", name:"villano",x:900,y:290,calories:200},
+				{type:"villain",name:"villano",x:500,y:410,calories:350},
+                {type:"villain",name:"villano",x:780,y:270,calories:590},
+				{type:"villain",name:"villano",x:665,y:405,calories:420},
+				{type:"villain",name:"villano",x:780,y:170,calories:420},
+				{type:"villain",name:"villano",x:870,y:150,calories:150},
+				{type:"villain",name:"villano",x:765,y:405,calories:150},
+				{type:"villain",name:"villano",x:900,y:405,calories:590},
+				{type:"villain",name:"villano",x:580,y:290,calories:200},
+				{type:"villain",name:"villano",x:900,y:290,calories:200},
 
-				{type:"hero", name:"ciruela",x:30,y:415},
-				{type:"hero", name:"melocoton",x:80,y:405},
-				{type:"hero", name:"manzana",x:140,y:405},
-				
-				],
+				{type:"hero",name:"ciruela",x:30,y:415},
+				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"manzana",x:140,y:405},
+			],
 		}
 	],
 	//inicializa la pantalla de seleccion de nivel
@@ -720,29 +740,11 @@ var entities = {
 		"pelota":{
 			shape:"circle",
 			radius:25,
-			fullHealth:10000000,
+			fullHealth:10000000,//inmortal
 			density:0.1,//peso
 			friction:0.5,//asegurar escurre realista
-			restitution:1,//rebota mucho
+			restitution:1,//rebotar mucho
 		},
-		/*
-		"burger":{
-			shape:"circle",
-			fullHealth:40,
-			radius:25,
-			density:1,
-			friction:0.5,
-			restitution:0.4,	
-		},
-		"sodacan":{
-			shape:"rectangle",
-			fullHealth:80,
-			width:40,
-			height:60,
-			density:1,
-			friction:0.5,
-			restitution:0.7,	
-		},*/
 		"villano":{
 			shape:"rectangle",
 			fullHealth:50,

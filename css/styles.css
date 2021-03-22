@@ -12,6 +12,9 @@
     border: 1px solid black;
 	background-size: cover;
 }
+#settingscreen{
+	display:none;
+}
 .gamelayer {
     width :640px;
     height: 480px;
@@ -75,7 +78,7 @@
 }
 
 #loadingmessage {
-    margin-top:400px;
+    margin-top:420px;
     text-align:center;
     height:48px;
     color:white;
