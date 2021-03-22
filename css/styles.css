@@ -37,7 +37,8 @@
     /*padding-top: 50px;*/
     text-align: center;
 }
-#language{
+.IMGlanguage{
+	margin: 10px;
 	position: sticky;
     left: 80%;
     width: 25px;
@@ -132,4 +133,22 @@
 }
 .blurBackground{
 	filter: blur(2px);
+}
+/*pantalla de ajustes*/
+#settingsInfo{
+	width: 400px;
+	margin:auto;
+	background-color: #dab6ca;
+    border: 5px solid black;
+    padding: 20px;
+}
+#settingsInfo td{
+	padding: 20px;
+}
+#settingsInfo select{
+    padding: 5px;
+}
+#settingsmessage{
+	text-align: center;
+	font-size: 25px;
 }

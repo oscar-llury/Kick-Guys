@@ -118,25 +118,6 @@ var game = {
 		$('#gobackbutton').attr('onclick','game.goHomePage();');
 		$('#score').hide();
 	},
-	showSettingScreen:function(){
-		$('.gamelayer').hide();
-		$('#settingscreen').show();
-		language = loader.language;
-		if(language==='esp'){
-			$('#languageSettings').attr('src','assets/images/esp.png');
-		}
-		if(language==='eeuu'){
-			$('#languageSettings').attr('src','assets/images/eeuu.png');
-		}
-		//$('#selectLanguage')[0].append($("<option>",{value:esp, text:Español}));
-		$('#selectLanguage')[0].append($("<option>", {
-			value: 'esp',
-			text: 'ESPAÑOL'
-		}));
-		$('#selectLanguage')[0].append('<option name="eeuu" value="eeuu">Inglés</option>');
-		
-		
-	},
 	restartLevel:function(){
 		$('#gamecanvas').removeClass('blurBackground');
 		window.cancelAnimationFrame(game.animationFrame);		
@@ -317,7 +298,6 @@ var game = {
 				
 			} else {
 				$('#endingmessage').html(LIT_no_more_levels);
-				
 			}
 			
 		} else if (game.mode=="level-failure"){			
@@ -500,8 +480,7 @@ var levels = {
 				{type:"hero",name:"ciruela",x:30,y:415},
 				{type:"hero",name:"melocoton",x:80,y:405},
 				{type:"hero",name:"manzana",x:140,y:405},
-
-		]
+			]
 		},
 		{//Cuarto nivel 
 			foreground:'N4-foreground',
@@ -534,8 +513,7 @@ var levels = {
 				{type:"hero",name:"ciruela",x:30,y:415},
 				{type:"hero",name:"melocoton",x:80,y:405},
 				{type:"hero",name:"manzana",x:140,y:405},
-			
-					],
+			],
 		},
 		{//Quinto nivel 
 			foreground:'N5-foreground',
@@ -647,7 +625,7 @@ var levels = {
 				{type:"villain",name:"villano",x:580,y:290,calories:200},
 				{type:"villain",name:"villano",x:900,y:290,calories:200},
 
-				{type:"hero",name:"ciruela",x:30,y:415},
+				{type:"hero",name:"ciruela",x:5,y:415},
 				{type:"hero",name:"melocoton",x:80,y:405},
 				{type:"hero",name:"melocoton",x:80,y:405},
 				{type:"hero",name:"manzana",x:140,y:405},
@@ -1069,4 +1047,34 @@ var mouse = {
 		mouse.down = false;
 		mouse.dragging = false;
 	}
+}
+
+var setting = {
+	changeSettingsLanguage(language){
+		if(language==='esp'){
+			$('#languageSettings').attr('src','assets/images/esp.png');
+			$('#textSelectLanguage').text('Seleccionar idioma');
+			$('#settingsmessage').text('Ajustes de usuario');
+		}
+		if(language==='eeuu'){
+			$('#languageSettings').attr('src','assets/images/eeuu.png');
+			$('#textSelectLanguage').text('Select language');
+			$('#settingsmessage').text('User settings');
+		}
+	},
+	showSettingScreen:function(){
+		$('.gamelayer').hide();
+		$('#settingscreen').show();
+		language = loader.language;
+		setting.changeSettingsLanguage(language);
+		$("#selectLanguage").prepend("<option value='esp' selected='selected'>Español</option>");
+		$("#selectLanguage").prepend("<option value='eeuu'>English</option>");
+		$("#selectLanguage" ).change(function() {
+			option = $(this).val();
+			setting.changeSettingsLanguage(option);
+		});
+		//$("#selectLanguage").find("option[value='esp']").text('hola');
+		
+	},
+	
 }

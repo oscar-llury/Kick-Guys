@@ -23,28 +23,35 @@
 			</div>
 
       <div id="gamestartscreen" class="gamelayer">
-		<img id="language">
+		<img id="language" class="IMGlanguage">
 		<img id="imgLogo" src="assets/images/LOGO.png">
 		<br>
         <img src="assets/images/play.png" alt="Play Game" onclick="game.showLevelScreen();" class="cursorPointer">
         </br>
-        <img src="assets/images/settings.png" alt="Settings" onclick="game.showSettingScreen();" class="cursorPointer">
+        <img src="assets/images/settings.png" alt="Settings" onclick="setting.showSettingScreen();" class="cursorPointer">
       </div>
 
       <div id="levelselectscreen" class="gamelayer"></div>
 
 		<div id="settingscreen" class="gamelayer">
-			<img id="languageSettings">
-			<div>
-				<ul>
-					<li>Seleccionar idioma
-						<select id="selectLanguage">
-						</select>
-					</li>
-					<li></li>
-					<li></li>
-				</ul>
-			</div>
+			<img id="languageSettings" class="IMGlanguage">
+			<table id="settingsInfo">
+				<thead>
+					<tr>
+						<td id="settingsmessage" colspan="2"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<span id="textSelectLanguage"></span>
+						</td>
+						<td>
+							<select id="selectLanguage"></select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 
       <div id="loadingscreen" class="gamelayer">
