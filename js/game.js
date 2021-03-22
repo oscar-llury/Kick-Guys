@@ -984,14 +984,12 @@ var loader ={
 	changeIndexLanguage(){
 		if(loader.language==='esp'){
 			$('#language').attr('src','assets/images/esp.png');
-			$('#playGameBut').attr('src','assets/images/play.png');
-			$('#settingBut').attr('src','assets/images/settings.png');
 		}
 		if(loader.language==='eeuu'){
 			$('#language').attr('src','assets/images/eeuu.png');
-			$('#playGameBut').attr('src','assets/images/settings.png');
-			$('#settingBut').attr('src','assets/images/play.png');
 		}
+		$('#playGameBut').text(getLit('LIT_play_game',loader.language));
+		$('#settingBut').text(getLit('LIT_open_settings',loader.language));
 	},
 	loadImage:function(url){
 		this.totalCount++;

@@ -2,6 +2,10 @@ function getLit(lit,language){
 	switch (language){
 		case 'esp':{
 			switch (lit){
+				case 'LIT_play_game': return 'Jugar';
+				case 'LIT_open_settings': return 'Ajustes';
+				
+			/*select level screen*/
 				case 'LIT_select_nivel': return 'Selecciona un nivel';
 				case 'LIT_loaded_media_1': return 'Cargados ';
 				case 'LIT_loaded_media_2': return' de ';
@@ -20,6 +24,10 @@ function getLit(lit,language){
 		};
 		case 'eeuu':{
 			switch (lit){
+				case 'LIT_play_game': return 'Play';
+				case 'LIT_open_settings': return 'Settings';
+				
+			/*select level screen*/
 				case 'LIT_select_nivel': return 'Select a level';
 				case 'LIT_loaded_media_1': return 'Loaded ';
 				case 'LIT_loaded_media_2': return' of ';
