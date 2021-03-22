@@ -982,12 +982,7 @@ var loader ={
 		loader.changeIndexLanguage(loader.language);
 	},
 	changeIndexLanguage(){
-		if(loader.language==='esp'){
-			$('#language').attr('src','assets/images/esp.png');
-		}
-		if(loader.language==='eeuu'){
-			$('#language').attr('src','assets/images/eeuu.png');
-		}
+		$('#language').attr('src',getLit('LIT_img_language',loader.language));
 		$('#playGameBut').text(getLit('LIT_play_game',loader.language));
 		$('#settingBut').text(getLit('LIT_open_settings',loader.language));
 	},
@@ -1061,21 +1056,17 @@ var setting = {
 	language:'',
 	changeSettingsLanguage(language){
 		if(language==='esp'){
-			$('#languageSettings').attr('src','assets/images/esp.png');
 			$("#selectLanguage").find("option[value='esp']").attr('selected','selected');
-			$('#textSelectLanguage').text('Seleccionar idioma');
-			$('#settingsmessage').text('Ajustes de usuario');
-			$('#saveSettings').text('Guardar');
 			setting.language='esp';
 		}
 		if(language==='eeuu'){
-			$('#languageSettings').attr('src','assets/images/eeuu.png');
 			$("#selectLanguage").find("option[value='eeuu']").attr('selected','selected');
-			$('#textSelectLanguage').text('Select language');
-			$('#settingsmessage').text('User settings');
-			$('#saveSettings').text('Save');
 			setting.language='eeuu';
 		}
+		$('#settingsmessage').text(getLit('LIT_settings',loader.language));
+		$('#saveSettings').text(getLit('LIT_settings_save',loader.language));
+		$('#textSelectLanguage').text(getLit('LIT_settings_language',loader.language));
+		$('#languageSettings').attr('src',getLit('LIT_img_language',loader.language));
 	},
 	showSettingScreen:function(){
 		$('.gamelayer').hide();
@@ -1089,7 +1080,6 @@ var setting = {
 			option = $(this).val();
 			setting.changeSettingsLanguage(option);
 		});
-		//$("#selectLanguage").find("option[value='esp']").text('hola');
 	},
 	saveSetting:function(){
 		loader.language=setting.language;

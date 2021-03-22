@@ -4,6 +4,12 @@ function getLit(lit,language){
 			switch (lit){
 				case 'LIT_play_game': return 'Jugar';
 				case 'LIT_open_settings': return 'Ajustes';
+				case 'LIT_img_language': return 'assets/images/esp.png';
+				
+			/*setting screen*/
+				case 'LIT_settings': return 'Ajustes de usuario';
+				case 'LIT_settings_language': return 'Seleccionar idioma';
+				case 'LIT_settings_save': return 'Guardar';
 				
 			/*select level screen*/
 				case 'LIT_select_nivel': return 'Selecciona un nivel';
@@ -26,6 +32,12 @@ function getLit(lit,language){
 			switch (lit){
 				case 'LIT_play_game': return 'Play';
 				case 'LIT_open_settings': return 'Settings';
+				case 'LIT_img_language': return 'assets/images/eeuu.png';
+				
+			/*setting screen*/
+				case 'LIT_settings': return 'User settings';
+				case 'LIT_settings_language': return 'Select language';
+				case 'LIT_settings_save': return 'Save';
 				
 			/*select level screen*/
 				case 'LIT_select_nivel': return 'Select a level';
