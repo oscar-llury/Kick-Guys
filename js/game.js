@@ -58,6 +58,8 @@ var game = {
 	decelerating:0,
 	//No hay sonido
 	noSound:true,
+	//recompensa comprada? 1000
+	rewardAchieved:false,
 	
 	init: function(){
 		//inicializar objetos
@@ -202,7 +204,8 @@ var game = {
 				game.mode = "load-next-hero";
 			}			 
 		}
-		 if (game.mode=="wait-for-firing"){  
+		
+		if (game.mode=="wait-for-firing"){  
 			if (mouse.dragging){
 				if (game.mouseOnCurrentHero()){
 					game.mode = "firing";
@@ -269,12 +272,15 @@ var game = {
 
 			// Comprobar si hay mÃ¡s hÃ©roes para cargar, si no terminar el nivel (fallo)
 			if (game.heroes.length == 0){
-				game.mode = "level-failure"	
-				return;		
+				if(!game.rewardAchieved){
+					game.mode = "level-failure"	
+					return;
+				}
 			}
 
 			// Cargar el hÃ©roe y establecer el modo de espera para disparar (wait-for-firing)
 			if(!game.currentHero){
+				console.log('herrrooooo')
 				game.currentHero = game.heroes[game.heroes.length-1];
 				game.currentHero.SetPosition({x:180/box2d.scale,y:200/box2d.scale});
 	 			game.currentHero.SetLinearVelocity({x:0,y:0});
@@ -297,13 +303,49 @@ var game = {
 				$('#yesbutton').html(getLit("LIT_yesbutton",loader.language));
 				$('#nobutton').html(getLit("LIT_nobutton",loader.language));
 			}	
-				$('nobutton').click(function(){
-					if(game.panTo(0)){
-						game.ended = true;
-						game.showEndingScreen();
-					}	
-				});
-						 
+			$('#nobutton').click(function(){
+				game.score=0;
+				console.log('NOOOOOO');
+				
+				if(game.panTo(0)){
+					game.ended = true;
+					game.showEndingScreen();
+				}	
+			});
+			$('#yesbutton').click(function(){
+				game.score-=1000;
+				console.log('SIIIIIIIIIII');
+				$('#ballscorescreen').hide();
+				if(!game.rewardAchieved){
+					game.mode=="wait-for-firing";
+					console.log('añadido');
+					levels.data[4].entities.push({type:"hero",name:"manzana",x:140,y:405});
+					game.rewardAchieved=true;
+					//game.animate();//animate
+					var entity2 = entities.create({type:"hero",name:"manzana",x:140,y:405});
+					var entity = entities.definitions['manzana'];
+					var position = {x: 140, y: 405};
+					var angle = 90;
+					entities.draw(entity,position,angle);
+					//game.heroes.push(entity2);
+					for (var body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
+						var entity = body.GetUserData();
+						if(entity){
+							if(entity.type == "hero"){				
+								game.heroes.push(body);			
+							}
+						}
+					}
+					loader.totalCount ++;
+					game.currentHero = game.heroes[game.heroes.length-1];
+					game.currentHero.SetPosition({x:180/box2d.scale,y:200/box2d.scale});
+					game.currentHero.SetLinearVelocity({x:0,y:0});
+					game.currentHero.SetAngularVelocity(0);
+					game.currentHero.SetAwake(true);
+				}
+				
+				//{type:"hero",name:"manzana",x:140,y:405},
+			});
 		}
 	},
 	
@@ -711,12 +753,12 @@ var levels = {
 			entities.create(entity);			
 		};
 
-		  //Llamar a game.start() una vez que los assets se hayan cargado
-	   if(loader.loaded){
-		   game.start()
-	   } else {
-		   loader.onload = game.start;
-	   }
+		 //Llamar a game.start() una vez que los assets se hayan cargado
+	    if(loader.loaded){
+			game.start()
+	    } else {
+			loader.onload = game.start;
+	    }
 	}
 }
 
@@ -842,6 +884,9 @@ var entities = {
 	},
 // Tomar la entidad, su posicion y angulo y dibujar en el lienzo de juego
 	draw:function(entity,position,angle){
+		//console.log(entity);
+		//console.log(position);
+		//console.log(angle);
 		game.context.translate(position.x*box2d.scale-game.offsetLeft,position.y*box2d.scale);
 		game.context.rotate(angle);
 		switch (entity.type){
@@ -926,60 +971,60 @@ var box2d = {
 		box2d.world.Step(timeStep,8,3);
 	},
 	createRectangle:function(entity,definition){
-			var bodyDef = new b2BodyDef;
-			if(entity.isStatic){
-				bodyDef.type = b2Body.b2_staticBody;
-			} else {
-				bodyDef.type = b2Body.b2_dynamicBody;
-			}
-			
-			bodyDef.position.x = entity.x/box2d.scale;
-			bodyDef.position.y = entity.y/box2d.scale;
-			if (entity.angle) {
-				bodyDef.angle = Math.PI*entity.angle/180;
-			}
-			
-			var fixtureDef = new b2FixtureDef;
-			fixtureDef.density = definition.density;
-			fixtureDef.friction = definition.friction;
-			fixtureDef.restitution = definition.restitution;
+		var bodyDef = new b2BodyDef;
+		if(entity.isStatic){
+			bodyDef.type = b2Body.b2_staticBody;
+		} else {
+			bodyDef.type = b2Body.b2_dynamicBody;
+		}
+		
+		bodyDef.position.x = entity.x/box2d.scale;
+		bodyDef.position.y = entity.y/box2d.scale;
+		if (entity.angle) {
+			bodyDef.angle = Math.PI*entity.angle/180;
+		}
+		
+		var fixtureDef = new b2FixtureDef;
+		fixtureDef.density = definition.density;
+		fixtureDef.friction = definition.friction;
+		fixtureDef.restitution = definition.restitution;
 
-			fixtureDef.shape = new b2PolygonShape;
-			fixtureDef.shape.SetAsBox(entity.width/2/box2d.scale,entity.height/2/box2d.scale);
-			
-			var body = box2d.world.CreateBody(bodyDef);	
-			body.SetUserData(entity);
-			
-			var fixture = body.CreateFixture(fixtureDef);
-			return body;
+		fixtureDef.shape = new b2PolygonShape;
+		fixtureDef.shape.SetAsBox(entity.width/2/box2d.scale,entity.height/2/box2d.scale);
+		
+		var body = box2d.world.CreateBody(bodyDef);	
+		body.SetUserData(entity);
+		
+		var fixture = body.CreateFixture(fixtureDef);
+		return body;
 	},
 	
 	createCircle:function(entity,definition){
-			var bodyDef = new b2BodyDef;
-			if(entity.isStatic){
-				bodyDef.type = b2Body.b2_staticBody;
-			} else {
-				bodyDef.type = b2Body.b2_dynamicBody;
-			}
-			
-			bodyDef.position.x = entity.x/box2d.scale;
-			bodyDef.position.y = entity.y/box2d.scale;
-			
-			if (entity.angle) {
-				bodyDef.angle = Math.PI*entity.angle/180;
-			}			
-			var fixtureDef = new b2FixtureDef;
-			fixtureDef.density = definition.density;
-			fixtureDef.friction = definition.friction;
-			fixtureDef.restitution = definition.restitution;
+		var bodyDef = new b2BodyDef;
+		if(entity.isStatic){
+			bodyDef.type = b2Body.b2_staticBody;
+		} else {
+			bodyDef.type = b2Body.b2_dynamicBody;
+		}
+		
+		bodyDef.position.x = entity.x/box2d.scale;
+		bodyDef.position.y = entity.y/box2d.scale;
+		
+		if (entity.angle) {
+			bodyDef.angle = Math.PI*entity.angle/180;
+		}			
+		var fixtureDef = new b2FixtureDef;
+		fixtureDef.density = definition.density;
+		fixtureDef.friction = definition.friction;
+		fixtureDef.restitution = definition.restitution;
 
-			fixtureDef.shape = new b2CircleShape(entity.radius/box2d.scale);
-			
-			var body = box2d.world.CreateBody(bodyDef);	
-			body.SetUserData(entity);
+		fixtureDef.shape = new b2CircleShape(entity.radius/box2d.scale);
+		
+		var body = box2d.world.CreateBody(bodyDef);	
+		body.SetUserData(entity);
 
-			var fixture = body.CreateFixture(fixtureDef);
-			return body;
+		var fixture = body.CreateFixture(fixtureDef);
+		return body;
 	},  
 }
 

@@ -122,6 +122,7 @@
 
 #ballscorescreen {
 	margin: 2px;
+	/*padding-top: 150px;*/
 }
 #tableballs {
     width: 400px;
