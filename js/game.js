@@ -1,4 +1,4 @@
-// Declarar todos los objetos de uso comÃºn como variables por conveniencia
+// Declarar todos los objetos de uso como variables por conveniencia
 var b2Vec2 = Box2D.Common.Math.b2Vec2;
 var b2BodyDef = Box2D.Dynamics.b2BodyDef;
 var b2Body = Box2D.Dynamics.b2Body;
@@ -63,7 +63,7 @@ var game = {
 		//inicializar objetos
 		loader.init();
 		mouse.init();
-		// Cargar todos los efectos de sonido y música de fondo
+		// Cargar todos los efectos de sonido y musica de fondo
 		game.backgroundMusic = loader.loadSound('assets/sounds/Survive-the-Fall');
 		game.slingshotReleasedSound = loader.loadSound("assets/sounds/released");
 		game.bounceSound = loader.loadSound('assets/sounds/bounce');
@@ -89,7 +89,7 @@ var game = {
 	stopBackgroundMusic:function(){
 		var toggleImage = $("#togglemusic")[0];	
 		toggleImage.src="assets/images/nosound.png";	
-		game.backgroundMusic.currentTime = 0; // Ir al comienzo de la canciÃ³n
+		game.backgroundMusic.currentTime = 0; // Ir al comienzo de la canción
 	},
 	toggleBackgroundMusic:function(){
 		var toggleImage = $("#togglemusic")[0];
@@ -221,7 +221,7 @@ var game = {
 				}
 				var impulseScaleFactor = 0.75;
 				
-				// Coordenadas del centro de la honda (donde la banda estÃ¡ atada a la honda)
+				// Coordenadas del centro de la honda (donde la banda está atada a la honda)
 				var slingshotCenterX = game.slingshotX + 35;
 				var slingshotCenterY = game.slingshotY+25;
 				var impulse = new b2Vec2((slingshotCenterX -mouse.x-game.offsetLeft)*impulseScaleFactor,(slingshotCenterY-mouse.y)*impulseScaleFactor);
@@ -231,7 +231,7 @@ var game = {
 		}
 
 		if (game.mode == "fired"){		
-			//Vista panorÃ¡mica donde el hÃ©roe se encuentra actualmente...
+			//Vista panoramica donde el heroe se encuentra actualmente...
 			var heroX = game.currentHero.GetPosition().x*box2d.scale;
 			game.panTo(heroX);
 			//Y esperar hasta que deja de moverse, está fuera de los límites o se mueve lentamente durante demasiado tiempo
@@ -257,19 +257,19 @@ var game = {
 		if (game.mode == "load-next-hero"){
 			game.countHeroesAndVillains();
 
-			// Comprobar si algÃºn villano estÃ¡ vivo, si no, termine el nivel (Ã©xito)
+			// Comprobar si algun villano está¡ vivo, si no, termine el nivel (exito)
 			if (game.villains.length == 0){
 				game.mode = "level-success";
 				return;
 			}
 
-			// Comprobar si hay mÃ¡s hÃ©roes para cargar, si no terminar el nivel (fallo)
+			// Comprobar si hay mas heroes para cargar, si no terminar el nivel (fallo)
 			if (game.heroes.length == 0){
 				game.mode = "level-failure"	
 				return;		
 			}
 
-			// Cargar el hÃ©roe y establecer el modo de espera para disparar (wait-for-firing)
+			// Cargar el heroe y establecer el modo de espera para disparar (wait-for-firing)
 			if(!game.currentHero){
 				game.currentHero = game.heroes[game.heroes.length-1];
 				game.currentHero.SetPosition({x:180/box2d.scale,y:200/box2d.scale});
@@ -277,7 +277,7 @@ var game = {
 	 			game.currentHero.SetAngularVelocity(0);
 				game.currentHero.SetAwake(true);				
 			} else {
-				// Esperar a que el hÃ©roe deje de rebotar y se duerma y luego cambie a espera para disparar (wait-for-firing)
+				// Esperar a que el heroe deje de rebotar y se duerma y luego cambie a espera para disparar (wait-for-firing)
 				game.panTo(game.slingshotX);
 				if(!game.currentHero.IsAwake()){
 					game.mode = "wait-for-firing";
@@ -332,7 +332,7 @@ var game = {
 		game.context.drawImage(game.slingshotImage,game.slingshotX-game.offsetLeft,game.slingshotY);
 		// Dibujar todos los cuerpos
 		game.drawAllBodies();
-		// Dibujar la banda cuando estamos disparando un hÃ©roe
+		// Dibujar la banda cuando estamos disparando un heroe
 		if(game.mode == "wait-for-firing" || game.mode == "firing"){  
 			game.drawSlingshotBand();
 		}
@@ -345,7 +345,7 @@ var game = {
 	drawAllBodies:function(){  
 		box2d.world.DrawDebugData();	
 
-		// Iterar a travÃ©s de todos los cuerpos y dibujarlos en el lienzo del juego		  
+		// Iterar a traves de todos los cuerpos y dibujarlos en el lienzo del juego		  
 		for (var body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
 			var entity = body.GetUserData();
   
@@ -369,10 +369,10 @@ var game = {
 		}
 	},
 	drawSlingshotBand:function(){
-		game.context.strokeStyle = "rgb(68,31,11)"; // Color marrÃ³n oscuro
-		game.context.lineWidth = 6; // Dibuja una lÃ­nea gruesa
+		game.context.strokeStyle = "rgb(68,31,11)"; // Color marron oscuro
+		game.context.lineWidth = 6; // Dibuja una linea gruesa
 
-		// Utilizar el Ã¡ngulo y el radio del hÃ©roe para calcular el centro del hÃ©roe
+		// Utilizar el angulo y el radio del heroe para calcular el centro del heroe
 		var radius = game.currentHero.GetUserData().radius;
 		var heroX = game.currentHero.GetPosition().x*box2d.scale;
 		var heroY = game.currentHero.GetPosition().y*box2d.scale;			
@@ -384,21 +384,21 @@ var game = {
 	
 	
 		game.context.beginPath();
-		// Iniciar la lÃ­nea desde la parte superior de la honda (la parte trasera)
+		// Iniciar la linea desde la parte superior de la honda (la parte trasera)
 		game.context.moveTo(game.slingshotX+50-game.offsetLeft, game.slingshotY+25);	
 
-		// Dibuja lÃ­nea al centro del hÃ©roe
+		// Dibuja linea al centro del heroe
 		game.context.lineTo(heroX-game.offsetLeft,heroY);
 		game.context.stroke();		
 	
-		// Dibuja el hÃ©roe en la banda posterior
+		// Dibuja el heroe en la banda posterior
 		entities.draw(game.currentHero.GetUserData(),game.currentHero.GetPosition(),game.currentHero.GetAngle());
 			
 		game.context.beginPath();		
-		// Mover al borde del hÃ©roe mÃ¡s alejado de la parte superior de la honda
+		// Mover al borde del heroe mas alejado de la parte superior de la honda
 		game.context.moveTo(heroFarEdgeX-game.offsetLeft,heroFarEdgeY);
 	
-		// Dibujar lÃ­nea de regreso a la parte superior de la honda (el lado frontal)
+		// Dibujar linea de regreso a la parte superior de la honda (el lado frontal)
 		game.context.lineTo(game.slingshotX-game.offsetLeft +10,game.slingshotY+30)
 		game.context.stroke();
 	},
@@ -673,7 +673,7 @@ var levels = {
 		var level = levels.data[number];
 
 
-		//Cargar las imÃ¡genes de fondo, primer plano y honda
+		//Cargar las imagenes de fondo, primer plano y honda
 		game.currentLevel.backgroundImage = loader.loadImage("assets/levels/"+level.background+".png");
 		game.currentLevel.foregroundImage = loader.loadImage("assets/levels/"+level.foreground+".png");
 		game.slingshotImage = loader.loadImage("assets/images/tirachinas.png");
@@ -814,7 +814,7 @@ var entities = {
 				break;
 		}		
 	},
-// Tomar la entidad, su posicion y angulo y dibujar en el lienzo de juego
+	// Tomar la entidad, su posicion y angulo y dibujar en el lienzo de juego
 	draw:function(entity,position,angle){
 		game.context.translate(position.x*box2d.scale-game.offsetLeft,position.y*box2d.scale);
 		game.context.rotate(angle);
@@ -846,12 +846,12 @@ var entities = {
 var box2d = {
 	scale:30,
 	init:function(){
-		// Configurar el mundo de box2d que hara la mayoria de los circulos de la fÃ­sica
+		// Configurar el mundo de box2d que hara la mayoria de los circulos de la fisica
 		var gravity = new b2Vec2(0,9.8); //Declara la gravedad como 9,8 m / s ^ 2 hacia abajo
-		var allowSleep = true; //Permita que los objetos que estÃ¡n en reposo se queden dormidos y se excluyan de los cÃ¡lculos
+		var allowSleep = true; //Permita que los objetos que estan en reposo se queden dormidos y se excluyan de los calculos
 		box2d.world = new b2World(gravity,allowSleep);
 
-		// Configurar depuraciÃ³n de dibujo
+		// Configurar depuracion de dibujo
 		var debugContext = document.getElementById('debugcanvas').getContext('2d');
 		var debugDraw = new b2DebugDraw();
 		debugDraw.SetSprite(debugContext);
@@ -869,8 +869,8 @@ var box2d = {
 			var entity2 = body2.GetUserData();
 
 			var impulseAlongNormal = Math.abs(impulse.normalImpulses[0]);
-			// Este listener es llamado con mucha frecuencia. Filtra los impulsos muy prqueÃ±os.
-			// DespuÃ©s de probar diferentes valores, 5 parece funcionar bien
+			// Este listener es llamado con mucha frecuencia. Filtra los impulsos muy prqueños.
+			// Despues de probar diferentes valores, 5 parece funcionar bien
 			if(impulseAlongNormal>5){
 				// Si los objetos tienen una salud, reduzca la salud por el valor del impulso			
 				if (entity1.health){
@@ -896,7 +896,7 @@ var box2d = {
 	},  
 	step:function(timeStep){
 		// velocidad de las iteraciones = 8
-		// posiciÃ³n de las iteraciones = 3
+		// posición de las iteraciones = 3
 		box2d.world.Step(timeStep,8,3);
 	},
 	createRectangle:function(entity,definition){
