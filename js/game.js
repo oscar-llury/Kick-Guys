@@ -68,6 +68,7 @@ var game = {
 		game.slingshotReleasedSound = loader.loadSound("assets/sounds/released");
 		game.bounceSound = loader.loadSound('assets/sounds/bounce');
 		game.bouncehitSound = loader.loadSound('assets/sounds/hit');
+		game.clickSound = loader.loadSound('assets/sounds/clicksound');
 		game.breakSound = {
 			"espiral":loader.loadSound('assets/sounds/espiralbreak'),
 			"bloque":loader.loadSound('assets/sounds/blockbreak')
@@ -104,6 +105,7 @@ var game = {
 	},
 	
 	goHomePage:function(){
+		game.clickSound.play();
 		$('#gamecanvas').removeClass('blurBackground');
 		$('#scorescreen').hide();
 		$('#levelselectscreen').hide();
@@ -111,6 +113,7 @@ var game = {
 	},
 	showLevelScreen:function(){
 		levels.init();
+		game.clickSound.play();
 		$('#gamecanvas').removeClass('blurBackground');
 		$('#gobackbutton').attr('src','assets/images/return.png');
 		$('.gamelayer').hide();
@@ -132,6 +135,7 @@ var game = {
 		levels.load(game.currentLevel.number+1);
 	},
 	start:function(){
+		game.clickSound.play();
 		$('.gamelayer').hide();
 		$('#gobackbutton').attr('onclick','game.restartLevel();');
 		$('#gobackbutton').attr('src','assets/images/retry.png');
@@ -284,11 +288,33 @@ var game = {
 				}
 			}
 	    }	
-		if(game.mode=="level-success" || game.mode=="level-failure"){		
-			if(game.panTo(0)){
-				game.ended = true;					
-				game.showEndingScreen();
-			}			 
+	
+		if(game.mode=="level-success" || game.mode=="level-failure"){
+			if(game.score>1000){
+				let myElement = document.querySelector("#ballscorescreen");
+				myElement.style.display = 'block';
+				$('#ballsmessage').html(getLit("LIT_ballsmessage",loader.language));
+				$('#yesbutton').html(getLit("LIT_yesbutton",loader.language));
+				$('#nobutton').html(getLit("LIT_nobutton",loader.language));
+			}	
+				$('nobutton').click(function(){
+					if(game.panTo(0)){
+						game.ended = true;
+						game.showEndingScreen();
+					}	
+				});
+						 
+		}
+	},
+	
+	addBall:function(){
+		game.score = 0;
+	},
+	
+	continueLevel:function(){
+		if (game.score>1000){
+		let myElement = document.querySelector("#ballscorescreen");
+		myElement.style.display = 'none';
 		}
 	},
 	showEndingScreen:function(){
@@ -450,7 +476,7 @@ var levels = {
 				{type:"villain", name:"villano",x:670,y:405,calories:420},
 				{type:"villain", name:"villano",x:765,y:400,calories:150},
 
-				{type:"hero", name:"ciruela",x:30,y:415},
+				{type:"hero", name:"ciruela",x:5,y:415},
 				{type:"hero", name:"melocoton",x:80,y:405},
 				{type:"hero", name:"manzana",x:140,y:405},
 			]
@@ -525,25 +551,25 @@ var levels = {
 				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 			
-                {type:"block",name:"bloque",x:820,y: 380,angle: 90,width: 100,height: 35},
-                {type:"block",name:"bloque",x:720,y: 380,angle: 90,width: 100,height: 25},
-                {type:"block",name:"bloque",x:620,y: 380,angle: 90,width: 100,height: 25},
-                {type:"block",name:"espiral",x:670,y: 320.5,width: 110,height: 25},
-                {type:"block",name:"espiral",x:770,y: 320.5,width: 110,height: 25},
-                {type:"block",name:"bloque",x:720,y: 255,angle: 90,width: 120,height: 45},
-                {type:"block",name:"bloque",x:820,y: 255,angle: 90,width: 120,height: 25},
-                {type:"block",name:"espiral",x:770,y: 180,width: 130,height: 20},
-                {type:"block",name:"bloque",x:870, y: 380,angle: 90,width: 100,height: 25},
-                {type:"block",name:"bloque",x:870,y: 255,angle: 90,width: 100, height: 25},
-                {type:"block",name:"bloque",x:870,y: 170,angle: 90,width: 50,height: 25},
-                {type:"block",name:"bloque",x:870,y: 317.5,width: 100,height: 25},
+                 {type:"block",name:"bloque",x:700,y: 380,angle: 90,width: 100,height: 35},
+                {type:"block",name:"bloque",x:600,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:500,y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"espiral",x:550,y: 320.5,width: 110,height: 25},
+                {type:"block",name:"espiral",x:650,y: 320.5,width: 110,height: 25},
+                {type:"block",name:"bloque",x:600,y: 255,angle: 90,width: 120,height: 45},
+                {type:"block",name:"bloque",x:700,y: 255,angle: 90,width: 120,height: 25},
+                {type:"block",name:"espiral",x:650,y: 180,width: 130,height: 20},
+                {type:"block",name:"bloque",x:750, y: 380,angle: 90,width: 100,height: 25},
+                {type:"block",name:"bloque",x:750,y: 255,angle: 90,width: 100, height: 25},
+                {type:"block",name:"bloque",x:750,y: 170,angle: 90,width: 50,height: 25},
+                {type:"block",name:"bloque",x:750,y: 317.5,width: 100,height: 25},
 
-                {type:"villain",name:"villano",x:780,y:270,calories:590},
-				{type:"villain",name:"villano",x:665,y:405,calories:420},
-				{type:"villain",name:"villano",x:780,y:170,calories:420},
-				{type:"villain",name:"villano",x:870,y:150,calories:150},
-				{type:"villain",name:"villano",x:765,y:405,calories:150},
-				{type:"villain",name:"villano",x:900,y:405,calories:590},
+                {type:"villain",name:"villano",x:660,y:270,calories:590},
+				{type:"villain",name:"villano",x:545,y:405,calories:420},
+				{type:"villain",name:"villano",x:660,y:170,calories:420},
+				{type:"villain",name:"villano",x:750,y:150,calories:150},
+				{type:"villain",name:"villano",x:645,y:405,calories:150},
+				{type:"villain",name:"villano",x:780,y:405,calories:590},
 
 				{type:"hero",name:"ciruela",x:30,y:415},
 				{type:"hero",name:"melocoton",x:80,y:405},
@@ -618,18 +644,18 @@ var levels = {
                 {type:"block",name:"bloque",x:870,y: 317.5,width: 100,height: 25},
 
 				{type:"villain",name:"villano",x:500,y:410,calories:350},
-                {type:"villain",name:"villano",x:780,y:270,calories:590},
+                {type:"villain",name:"villano",x:780,y:270,calories:420},
 				{type:"villain",name:"villano",x:665,y:405,calories:420},
 				{type:"villain",name:"villano",x:780,y:170,calories:420},
 				{type:"villain",name:"villano",x:870,y:150,calories:150},
 				{type:"villain",name:"villano",x:765,y:405,calories:150},
-				{type:"villain",name:"villano",x:900,y:405,calories:590},
+				{type:"villain",name:"villano",x:900,y:405,calories:420},
 				{type:"villain",name:"villano",x:580,y:290,calories:200},
 				{type:"villain",name:"villano",x:900,y:290,calories:200},
-
+		
 				{type:"hero",name:"ciruela",x:5,y:415},
 				{type:"hero",name:"melocoton",x:80,y:405},
-				{type:"hero",name:"melocoton",x:80,y:405},
+				{type:"hero",name:"melocoton",x:100,y:405},
 				{type:"hero",name:"manzana",x:140,y:405},
 			],
 		}
@@ -1070,6 +1096,7 @@ var setting = {
 		$('#languageSettings').attr('src',getLit('LIT_img_language',loader.language));
 	},
 	showSettingScreen:function(){
+		game.clickSound.play();
 		$('.gamelayer').hide();
 		$('#settingscreen').show();
 		language = loader.language;
@@ -1083,6 +1110,7 @@ var setting = {
 		});
 	},
 	saveSetting:function(){
+		game.clickSound.play();
 		loader.language=setting.language;
 		loader.changeIndexLanguage(setting.language);
 		$('#settingscreen').hide();
