@@ -9,6 +9,7 @@ var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
 var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
+var blockedLevel=0;
 //preparar requestAnimationFrame y cancelAnimationFrame para su uso
 (function() {
 	var lastTime = 0;
@@ -68,6 +69,7 @@ var game = {
 		game.slingshotReleasedSound = loader.loadSound("assets/sounds/released");
 		game.bounceSound = loader.loadSound('assets/sounds/bounce');
 		game.bouncehitSound = loader.loadSound('assets/sounds/hit');
+		game.clickSound = loader.loadSound('assets/sounds/clicksound');
 		game.breakSound = {
 			"espiral":loader.loadSound('assets/sounds/espiralbreak'),
 			"bloque":loader.loadSound('assets/sounds/blockbreak')
@@ -104,6 +106,7 @@ var game = {
 	},
 	
 	goHomePage:function(){
+		game.clickSound.play();
 		$('#gamecanvas').removeClass('blurBackground');
 		$('#scorescreen').hide();
 		$('#levelselectscreen').hide();
@@ -111,10 +114,75 @@ var game = {
 	},
 	showLevelScreen:function(){
 		levels.init();
+		game.clickSound.play();
 		$('#gamecanvas').removeClass('blurBackground');
 		$('#gobackbutton').attr('src','assets/images/return.png');
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
+		var html = "";
+		switch (blockedLevel) {
+			case 0:
+				html += '<input type="button" value="'+(1)+'">';
+				break;
+			case 1:
+				html += '<input type="button" value="'+(1)+'">';
+				html += '<input type="button" value="'+(2)+'">';
+				break;
+			case 2:
+				html += '<input type="button" value="'+(1)+'">';
+				html += '<input type="button" value="'+(2)+'">';
+				html += '<input type="button" value="'+(3)+'">';
+				break;
+			case 3:
+				html += '<input type="button" value="'+(1)+'">';
+				html += '<input type="button" value="'+(2)+'">';
+				html += '<input type="button" value="'+(3)+'">';
+				html += '<input type="button" value="'+(4)+'">';
+				break;
+				case 4:
+				html += '<input type="button" value="'+(1)+'">';
+				html += '<input type="button" value="'+(2)+'">';
+				html += '<input type="button" value="'+(3)+'">';
+				html += '<input type="button" value="'+(4)+'">';
+				html += '<input type="button" value="'+(5)+'">';
+				break;
+				case 5:
+				html += '<input type="button" value="'+(1)+'">';
+				html += '<input type="button" value="'+(2)+'">';
+				html += '<input type="button" value="'+(3)+'">';
+				html += '<input type="button" value="'+(4)+'">';
+				html += '<input type="button" value="'+(5)+'">';
+				html += '<input type="button" value="'+(6)+'">';
+				break;
+				case 6:
+				html += '<input type="button" value="'+(1)+'">';
+				html += '<input type="button" value="'+(2)+'">';
+				html += '<input type="button" value="'+(3)+'">';
+				html += '<input type="button" value="'+(4)+'">';
+				html += '<input type="button" value="'+(5)+'">';
+				html += '<input type="button" value="'+(6)+'">';
+				html += '<input type="button" value="'+(7)+'">';
+				break;	
+				case 7:
+				html += '<input type="button" value="'+(1)+'">';
+				html += '<input type="button" value="'+(2)+'">';
+				html += '<input type="button" value="'+(3)+'">';
+				html += '<input type="button" value="'+(4)+'">';
+				html += '<input type="button" value="'+(5)+'">';
+				html += '<input type="button" value="'+(6)+'">';
+				html += '<input type="button" value="'+(7)+'">';
+				break;
+			default:
+				break;
+		}
+		
+		
+		$('#levelselectscreen').html(html);
+		$('#levelselectscreen input').click(function(){
+			levels.load(this.value-1);
+			$('#levelselectscreen').hide();
+		})
+		console.log("hola");
 		$('#scorescreen').show();
 		$('#gobackbutton').attr('onclick','game.goHomePage();');
 		$('#score').hide();
@@ -132,6 +200,7 @@ var game = {
 		levels.load(game.currentLevel.number+1);
 	},
 	start:function(){
+		game.clickSound.play();
 		$('.gamelayer').hide();
 		$('#gobackbutton').attr('onclick','game.restartLevel();');
 		$('#gobackbutton').attr('src','assets/images/retry.png');
@@ -283,7 +352,30 @@ var game = {
 					game.mode = "wait-for-firing";
 				}
 			}
-	    }	
+	    }
+
+		if(game.mode=="level-failure"){
+			if(game.score>100){
+				let myElement = document.querySelector("#ballscorescreen");
+				myElement.style.display = 'block';
+				$('#endingInfo').hide();
+				$('#ballsmessage').html(getLit("LIT_ballsmessage",loader.language));
+				$('#yesbutton').html(getLit("LIT_yesbutton",loader.language));
+				$('#nobutton').html(getLit("LIT_nobutton",loader.language));
+				$('#nobutton').click(function(){
+				game.ended = true;
+					game.showEndingScreen();
+				console.log('NOOOOOO');
+				});
+				$('#yesbutton').click(function(){
+				game.endLevel();
+				console.log('YESSSS');
+				});
+			}
+				
+		}
+		
+		
 		if(game.mode=="level-success" || game.mode=="level-failure"){		
 			if(game.panTo(0)){
 				game.ended = true;					
@@ -291,9 +383,30 @@ var game = {
 			}			 
 		}
 	},
+	
+	endLevel:function(){ 
+		game.heroes = [];
+		game.villains = [];
+		for (var body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
+			var entity = body.GetUserData();
+			if (entity) {
+				if (entity.type == "villain") {
+					box2d.world.DestroyBody(body);
+					game.score += entity.calories;
+					$('#score').html('Score: ' + game.score);
+				}
+			}
+		}
+		game.showEndingScreen();
+		$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>'+getLit('LIT_play_next_level',loader.language)+'</td>');
+	}, 
 	showEndingScreen:function(){
 		//game.stopBackgroundMusic();				
 		if (game.mode=="level-success"){
+			var aux = game.currentLevel.number + 1;
+				if(aux>blockedLevel){
+					blockedLevel++;
+				}		
 			if(game.currentLevel.number<levels.data.length-1){
 				$('#endingmessage').html(getLit('LIT_level_complete',loader.language));
 				$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>'+getLit('LIT_play_next_level',loader.language)+'</td>');
@@ -597,7 +710,6 @@ var levels = {
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
 			
 				{type:"block",name:"espiral",x:900,y:380,angle:90,width:100,height:25},
-				{type:"block",name:"bloque",x:900,y: 180,width: 100,height: 20},
 				{type:"block",name:"bloque",x:550, y:380,angle: 90,width: 100,height: 25},
 			    {type:"block",name:"bloque",x:550,y:317.5,width: 100,height: 25},
 				{type:"block",name:"bloque",x:545,y:260,angle: 90,width: 100,height: 25},
@@ -1070,6 +1182,7 @@ var setting = {
 		$('#languageSettings').attr('src',getLit('LIT_img_language',loader.language));
 	},
 	showSettingScreen:function(){
+		game.clickSound.play();
 		$('.gamelayer').hide();
 		$('#settingscreen').show();
 		language = loader.language;
@@ -1083,6 +1196,7 @@ var setting = {
 		});
 	},
 	saveSetting:function(){
+		game.clickSound.play();
 		loader.language=setting.language;
 		loader.changeIndexLanguage(setting.language);
 		$('#settingscreen').hide();

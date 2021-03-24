@@ -18,6 +18,9 @@ function getLit(lit,language){
 
 			/*game screen*/
 				case 'LIT_score': return 'Puntos: ';
+				case 'LIT_ballsmessage': return 'Tienes más de 1000 puntos, quieres gastar todos tus puntos en desbloquear el siguiente nivel?';
+				case 'LIT_yesbutton': return 'SÍ';
+				case 'LIT_nobutton': return 'NO';
 
 			/*end level screen*/
 				case 'LIT_level_complete': return 'Nivel completado!!';
@@ -46,6 +49,10 @@ function getLit(lit,language){
 
 			/*game screen*/
 				case 'LIT_score': return 'Score: ';
+				case 'LIT_ballsmessage': return 'You have more than 1000 points, do you want to waste all your points to unlock next level?';
+				case 'LIT_yesbutton': return 'YES';
+				case 'LIT_nobutton': return 'NO';
+
 
 			/*end level screen*/
 				case 'LIT_level_complete': return 'Level completed!!';

@@ -119,6 +119,28 @@
     top: 5px;
     right: 20px;
 }
+#ballscorescreen {
+	margin: 2px;
+	/*padding-top: 150px;*/
+}
+#tableballs {
+    width: 400px;
+    height: 200px;
+    margin: auto;
+	background-color: #dab6ca;
+    border: 5px solid white;
+    padding: 20px;
+}
+#yesbutton {
+    margin: auto;
+    padding: 20px;
+	color:green;
+}
+#nobutton {
+    margin: auto;
+    padding: 20px;
+	color:red;
+}
 /* Pantalla de fin de nivel */
 #endingscreen {
     text-align: center;
