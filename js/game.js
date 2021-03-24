@@ -119,70 +119,6 @@ var game = {
 		$('#gobackbutton').attr('src','assets/images/return.png');
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
-		var html = "";
-		switch (blockedLevel) {
-			case 0:
-				html += '<input type="button" value="'+(1)+'">';
-				break;
-			case 1:
-				html += '<input type="button" value="'+(1)+'">';
-				html += '<input type="button" value="'+(2)+'">';
-				break;
-			case 2:
-				html += '<input type="button" value="'+(1)+'">';
-				html += '<input type="button" value="'+(2)+'">';
-				html += '<input type="button" value="'+(3)+'">';
-				break;
-			case 3:
-				html += '<input type="button" value="'+(1)+'">';
-				html += '<input type="button" value="'+(2)+'">';
-				html += '<input type="button" value="'+(3)+'">';
-				html += '<input type="button" value="'+(4)+'">';
-				break;
-				case 4:
-				html += '<input type="button" value="'+(1)+'">';
-				html += '<input type="button" value="'+(2)+'">';
-				html += '<input type="button" value="'+(3)+'">';
-				html += '<input type="button" value="'+(4)+'">';
-				html += '<input type="button" value="'+(5)+'">';
-				break;
-				case 5:
-				html += '<input type="button" value="'+(1)+'">';
-				html += '<input type="button" value="'+(2)+'">';
-				html += '<input type="button" value="'+(3)+'">';
-				html += '<input type="button" value="'+(4)+'">';
-				html += '<input type="button" value="'+(5)+'">';
-				html += '<input type="button" value="'+(6)+'">';
-				break;
-				case 6:
-				html += '<input type="button" value="'+(1)+'">';
-				html += '<input type="button" value="'+(2)+'">';
-				html += '<input type="button" value="'+(3)+'">';
-				html += '<input type="button" value="'+(4)+'">';
-				html += '<input type="button" value="'+(5)+'">';
-				html += '<input type="button" value="'+(6)+'">';
-				html += '<input type="button" value="'+(7)+'">';
-				break;	
-				case 7:
-				html += '<input type="button" value="'+(1)+'">';
-				html += '<input type="button" value="'+(2)+'">';
-				html += '<input type="button" value="'+(3)+'">';
-				html += '<input type="button" value="'+(4)+'">';
-				html += '<input type="button" value="'+(5)+'">';
-				html += '<input type="button" value="'+(6)+'">';
-				html += '<input type="button" value="'+(7)+'">';
-				break;
-			default:
-				break;
-		}
-		
-		
-		$('#levelselectscreen').html(html);
-		$('#levelselectscreen input').click(function(){
-			levels.load(this.value-1);
-			$('#levelselectscreen').hide();
-		})
-		console.log("hola");
 		$('#scorescreen').show();
 		$('#gobackbutton').attr('onclick','game.goHomePage();');
 		$('#score').hide();
@@ -364,7 +300,7 @@ var game = {
 				$('#nobutton').html(getLit("LIT_nobutton",loader.language));
 				$('#nobutton').click(function(){
 				game.ended = true;
-					game.showEndingScreen();
+				game.showEndingScreen();
 				console.log('NOOOOOO');
 				});
 				$('#yesbutton').click(function(){
@@ -375,7 +311,6 @@ var game = {
 				
 		}
 		
-		
 		if(game.mode=="level-success" || game.mode=="level-failure"){		
 			if(game.panTo(0)){
 				game.ended = true;					
@@ -383,10 +318,9 @@ var game = {
 			}			 
 		}
 	},
-	
 	endLevel:function(){ 
-		game.heroes = [];
-		game.villains = [];
+		//game.heroes = [];
+		//game.villains = [];
 		for (var body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
 			var entity = body.GetUserData();
 			if (entity) {
@@ -394,6 +328,10 @@ var game = {
 					box2d.world.DestroyBody(body);
 					game.score += entity.calories;
 					$('#score').html('Score: ' + game.score);
+					var aux = game.currentLevel.number + 1;
+					if(aux>blockedLevel){
+						blockedLevel++;
+					}
 				}
 			}
 		}
@@ -404,9 +342,9 @@ var game = {
 		//game.stopBackgroundMusic();				
 		if (game.mode=="level-success"){
 			var aux = game.currentLevel.number + 1;
-				if(aux>blockedLevel){
-					blockedLevel++;
-				}		
+			if(aux>blockedLevel){
+				blockedLevel++;
+			}		
 			if(game.currentLevel.number<levels.data.length-1){
 				$('#endingmessage').html(getLit('LIT_level_complete',loader.language));
 				$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>'+getLit('LIT_play_next_level',loader.language)+'</td>');
@@ -524,6 +462,7 @@ var levels = {
 			foreground:'N1-foreground',
 			background:'N1-background',
 			icon:'N1-icon',
+			icondisable:'N1-icon-disable',
 			entities:[
 				{type:"ground",name:"suelo", x:500,y:440,width:1000,height:20,isStatic:true},
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
@@ -545,6 +484,7 @@ var levels = {
 			foreground:'N2-foreground',
 			background:'N2-background',
 			icon:'N2-icon',
+			icondisable:'N2-icon-disable',
 			entities:[
 				{type:"ground", name:"suelo", x:500,y:440,width:1000,height:20,isStatic:true},
 				{type:"ground", name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
@@ -572,6 +512,7 @@ var levels = {
 			foreground:'N3-foreground',
 			background:'N3-background',
 			icon:'N3-icon',
+			icondisable:'N3-icon-disable',
 			entities:[ 
 				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
@@ -601,6 +542,7 @@ var levels = {
 			foreground:'N4-foreground',
 			background:'N4-background',
 			icon:'N4-icon',
+			icondisable:'N4-icon-disable',
 			entities:[
 				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
@@ -634,6 +576,7 @@ var levels = {
 			foreground:'N5-foreground',
 			background:'N5-background',
 			icon:'N5-icon',
+			icondisable:'N5-icon-disable',
 			entities:[
 				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
@@ -668,6 +611,7 @@ var levels = {
 			foreground:'N6-foreground',
 			background:'N6-background',
 			icon:'N6-icon',
+			icondisable:'N6-icon-disable',
 			entities:[
 				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
@@ -705,6 +649,7 @@ var levels = {
 			foreground:'N7-foreground',
 			background:'N7-background',
 			icon:'N7-icon',
+			icondisable:'N7-icon-disable',
 			entities:[
 				{type:"ground",name:"suelo", x: 500,y: 440, width: 1000, height: 20,isStatic: true},
 				{type:"ground",name:"suelo", x:185,y:390,width:30,height:80,isStatic:true},
@@ -752,12 +697,17 @@ var levels = {
 		var maxLine = Math.round(levels.data.length/2);
 		var cont=0;
 		var i=0;
+		
 		html += '<div><h1>'+getLit('LIT_select_nivel',loader.language)+'</h1></div>';
 		while(i<levels.data.length){
 			html += '<div>';
 			while((cont<maxLine)&&(i<levels.data.length)){
 				var level = levels.data[i];
-				html += '<input type="button" value="'+(i+1)+'" style="background:url(assets/levels/'+level.icon+'.png)no-repeat;background-size: contain;">';
+				if(i<=blockedLevel){
+					html += '<input type="button" value="'+(i+1)+'" style="background:url(assets/levels/'+level.icon+'.png)no-repeat; background-size: contain;" class="levelactive">';
+				}else{
+					html += '<input type="button" value="'+(i+1)+'" style="background:url(assets/levels/'+level.icondisable+'.png)no-repeat; background-size: contain;" class="leveldisabled" disabled>';
+				}
 				cont++;
 				i++;
 			}
