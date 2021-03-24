@@ -1,22 +1,26 @@
 @font-face {
-  font-family: 'Titan One';
-  src: url('TitanOne-Regular.ttf');
+    font-family: 'Titan One';
+    src: url('TitanOne-Regular.ttf');
 }
-*{
-	font-family: 'Titan One', cursive;
+
+* {
+    font-family: 'Titan One', cursive;
 }
+
 #gamecontainer {
     width: 640px;
     height: 480px;
     background: url(../assets/images/background-inicio.jpg);
     border: 1px solid black;
-	background-size: cover;
+    background-size: cover;
 }
-#settingscreen{
-	display:none;
+
+#settingscreen {
+    display: none;
 }
+
 .gamelayer {
-    width :640px;
+    width: 640px;
     height: 480px;
     position: absolute;
     display: none;
@@ -24,89 +28,103 @@
 
 #debugcanvas {
     margin-top: 50px;
-	border:1px solid black;
+    border: 1px solid black;
 }
 
 /*Pantalla de inicio del juego*/
-#imgLogo{
-	width:200px;
-	display: block;
-	margin:auto!important;
+#imgLogo {
+    width: 200px;
+    display: block;
+    margin: auto !important;
 }
+
 #gamestartscreen {
     /*padding-top: 50px;*/
     text-align: center;
 }
-.IMGlanguage{
-	margin: 10px;
-	position: sticky;
+
+.IMGlanguage {
+    margin: 10px;
+    position: sticky;
     left: 90%;
     width: 25px;
 }
+
 #gamestartscreen button {
     margin: 10px;
-	padding: 5px 10px;
+    padding: 5px 10px;
     border: 5px solid #30d8de;
     border-radius: 5px;
     background-color: #30d8de;
-	font-size: 1.5em;
+    font-size: 1.5em;
 }
+
 #gamestartscreen button:hover {
     border: 5px solid #f73ca3;
     background-color: #f73ca3;
-	cursor: pointer;
+    cursor: pointer;
 }
-.cursorPointer{
+
+.cursorPointer {
     cursor: pointer;
 }
 
 /*pantalla de seleccion de nivel*/
-#levelselectscreen{
+#levelselectscreen {
     padding-top: 50px;
     padding-left: 50px;
-	width: auto !important;
+    width: auto !important;
 }
-#levelselectscreen h1{
-	color: #f73ca3;
-	text-shadow: 3px 3px #30d8de;
+
+#levelselectscreen h1 {
+    color: #f73ca3;
+    text-shadow: 3px 3px #30d8de;
 }
-#levelselectscreen input{
+
+#levelselectscreen input {
     margin: 20px;
-    cursor: pointer;
-    /*background: url(../assets/images/level.png) no-repeat;
-	background-size: contain;*/
-	border-radius: 10px;
-    color: yellow;
+
+    border-radius: 10px;
     font-size: 20px;
     width: 64px;
     height: 64px;
     border: 0;
 }
 
+.levelactive {
+    color: yellow;
+    cursor: pointer;
+}
+
+.leveldisabled {
+    color: red;
+    cursor: initial;
+}
+
 /* Pantalla de carga */
 #loadingscreen {
-    background:rgb(100,100,100,0.3);
+    background: rgba(100, 100, 100, 0.3);
 }
 
 #loadingmessage {
-    margin-top:420px;
-    text-align:center;
-    height:48px;
-    color:white;
-    background:url(../assets/images/loader.gif) no-repeat center;
-    font:12px Arial;
+    margin-top: 420px;
+    text-align: center;
+    height: 48px;
+    color: white;
+    background: url(../assets/images/loader.gif) no-repeat center;
+    font: 12px Arial;
 }
 
 /* Pantalla de puntuación */
-#scorescreen{
+#scorescreen {
     height: 60px;
-    font:32px Comic Sans MS;
+    font: 32px Comic Sans MS;
     text-shadow: 0 0 2px #000;
     color: white;
-	z-index:10;
+    z-index: 10;
 }
 
-#scorescreen img{
+#scorescreen img {
     opacity: 0.6;
     top: 10px;
     position: relative;
@@ -119,62 +137,75 @@
     top: 5px;
     right: 20px;
 }
+
 /* Pantalla de fin de nivel */
 #endingscreen {
     text-align: center;
-	color: black;
-	text-shadow: 3px 3px #30d8de;
+    color: black;
+    text-shadow: 3px 3px #30d8de;
 }
-#endingscreen div{
+
+#endingscreen div {
     padding-top: 100px;
 }
-#endingInfo{
-	margin:auto;
-	background-color: #dab6ca;
+
+#endingInfo {
+    margin: auto;
+    background-color: #dab6ca;
     border: 5px solid black;
     padding: 50px;
 }
-#endingmessage{
-	font-size: 25px;
+
+#endingmessage {
+    font-size: 25px;
 }
-#endingInfo img{
-	margin:5px;
-	cursor: pointer;
+
+#endingInfo img {
+    margin: 5px;
+    cursor: pointer;
 }
-.blurBackground{
-	filter: blur(2px);
+
+.blurBackground {
+    filter: blur(2px);
 }
+
 /*pantalla de ajustes*/
-#settingsInfo{
-	width: 400px;
-	margin:auto;
-	background-color: #dab6ca;
+#settingsInfo {
+    width: 400px;
+    margin: auto;
+    background-color: #dab6ca;
     border: 5px solid black;
     padding: 20px;
 }
-#settingsInfo td{
-	padding: 20px;
+
+#settingsInfo td {
+    padding: 20px;
 }
-#settingsInfo select{
+
+#settingsInfo select {
     padding: 5px;
 }
-#settingsmessage{
-	text-align: center;
-	font-size: 25px;
-	text-shadow: 3px 3px #30d8de;
+
+#settingsmessage {
+    text-align: center;
+    font-size: 25px;
+    text-shadow: 3px 3px #30d8de;
     color: black;
 }
-#settingsInfo tfoot td{
-	text-align: center;
+
+#settingsInfo tfoot td {
+    text-align: center;
 }
+
 #saveSettings {
-	padding: 5px;
+    padding: 5px;
     border: 5px solid #30d8de;
     border-radius: 5px;
     background-color: #30d8de;
 }
+
 #saveSettings:hover {
     border: 5px solid #f73ca3;
     background-color: #f73ca3;
-	cursor: pointer;
+    cursor: pointer;
 }
