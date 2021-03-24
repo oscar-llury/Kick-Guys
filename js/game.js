@@ -290,26 +290,6 @@ var game = {
 			}
 	    }
 
-		if(game.mode=="level-failure"){
-			if(game.score>100){
-				let myElement = document.querySelector("#ballscorescreen");
-				myElement.style.display = 'block';
-				$('#endingInfo').hide();
-				$('#ballsmessage').html(getLit("LIT_ballsmessage",loader.language));
-				$('#yesbutton').html(getLit("LIT_yesbutton",loader.language));
-				$('#nobutton').html(getLit("LIT_nobutton",loader.language));
-				$('#nobutton').click(function(){
-				game.ended = true;
-				game.showEndingScreen();
-				console.log('NOOOOOO');
-				});
-				$('#yesbutton').click(function(){
-				game.endLevel();
-				console.log('YESSSS');
-				});
-			}
-				
-		}
 		
 		if(game.mode=="level-success" || game.mode=="level-failure"){		
 			if(game.panTo(0)){
@@ -318,27 +298,10 @@ var game = {
 			}			 
 		}
 	},
-	endLevel:function(){ 
-		//game.heroes = [];
-		//game.villains = [];
-		for (var body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
-			var entity = body.GetUserData();
-			if (entity) {
-				if (entity.type == "villain") {
-					box2d.world.DestroyBody(body);
-					game.score += entity.calories;
-					$('#score').html('Score: ' + game.score);
-					var aux = game.currentLevel.number + 1;
-					if(aux>blockedLevel){
-						blockedLevel++;
-					}
-				}
-			}
-		}
-		game.showEndingScreen();
-		$('#playnextlevel').html('<td><img src="assets/images/next.png" onclick="game.nextLevel();"></td><td>'+getLit('LIT_play_next_level',loader.language)+'</td>');
-	}, 
 	showEndingScreen:function(){
+		$('#playnextlevel').html('');
+		$('#endingmessage').html('');
+		$('#playcurrentlevel').html('');
 		//game.stopBackgroundMusic();				
 		if (game.mode=="level-success"){
 			var aux = game.currentLevel.number + 1;
