@@ -1,1 +1,2 @@
-# multimedia-P1
+# ![icon](assets/images/favicon.ico) Kick-Guys
+
